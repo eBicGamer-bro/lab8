@@ -1,39 +1,45 @@
+import java.security.NoSuchAlgorithmException;
+
 public class Main {
     public static void main(String[] args) {
-        new WelcomeMenu();
-        // PEOPLE database
-        /*PeopleDB peopleDB = new PeopleDB();
-        Student s1 = new Student("S001", "Ali", "ali@gmail.com", "hashed123");
-        Student s2 = new Student("S002", "Sara", "sara@gmail.com", "hashed456");
-        Instructor i1 = new Instructor("I001", "Omar", "omar@gmail.com", "pass999");
+        try {
+            ValidationAndHashing vh = new ValidationAndHashing();
 
-        peopleDB.addStudent(s1);
-        peopleDB.addStudent(s2);
-        peopleDB.addInstructor(i1);
+            // 1. PeopleDB setup
+            PeopleDB peopleDB = new PeopleDB();
+            Student s1 = new Student("S001", "Ali", "ali@gmail.com", vh.passwordHashing("123"));
+            Student s2 = new Student("S002", "Sara", "sara@gmail.com", vh.passwordHashing("123"));
+            Instructor i1 = new Instructor("I001", "Omar", "omar@gmail.com", vh.passwordHashing("999"));
 
-        // COURSES + LESSONS database
-        CourseLessonDB courseDB = new CourseLessonDB();
-        Course c1 = new Course("C001", "Java Basics");
-        Course c2 = new Course("C002", "Python Intro");
-        Lesson l1 = new Lesson("L001", "Intro Lesson","hhshshsh");
-        Lesson l2 = new Lesson("L002", "Advanced Lesson","jhdhshsh");
+            peopleDB.addStudent(s1);
+            peopleDB.addStudent(s2);
+            peopleDB.addInstructor(i1);
 
-        courseDB.addCourse(c1);
-        courseDB.addCourse(c2);
-        courseDB.addLesson(l1);
-        courseDB.addLesson(l2);
+            // 2. CourseLessonDB setup
+            CourseLessonDB courseDB = new CourseLessonDB();
+            Course c3 = new Course("C003", "J5va Basfffics", "I001", "Intro tfffa");
+            Course c2 = new Course("C002", "Pytrrrron Intro", "I001", "hamza is tired ");
 
-        // Display loaded data
-        System.out.println("\nStudents:");
-        for (Student st : peopleDB.getStudents()) System.out.println(st.getId() + " - " + st.getName());
+            // Only approved courses will appear for students
+            c3.setApprovalStatus(Course.ApprovalStatus.APPROVED);
+            c2.setApprovalStatus(Course.ApprovalStatus.PENDING);
 
-        System.out.println("\nInstructors:");
-        for (Instructor ins : peopleDB.getInstructors()) System.out.println(ins.getId() + " - " + ins.getName());
+            Lesson l1 = new Lesson("L001", "Intro Lesson", "Java basics content");
+            Lesson l2 = new Lesson("L002", "Advanced Lesson", "Python advanced content");
 
-        System.out.println("\nCourses:");
-        for (Course co : courseDB.getCourses()) System.out.println(co.getId() + " - " + co.getName());
+            c3.addLesson(l1);
+            c2.addLesson(l2);
 
-        System.out.println("\nLessons:");
-        for (Lesson le : courseDB.getLessons()) System.out.println(le.getId() + " - " + le.getId());*/
+            courseDB.addCourse(c3);
+            courseDB.addCourse(c2);
+            courseDB.addLesson(l1);
+            courseDB.addLesson(l2);
+
+            // 3. Launch GUI
+            new WelcomeMenu();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
     }
 }

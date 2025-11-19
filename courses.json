@@ -1,6 +1,7 @@
 {
     "courses": [
         {
+            "approvalStatus": "APPROVED",
             "name": "Java Basics",
             "description": "",
             "students": [],
@@ -9,6 +10,7 @@
             "lessons": []
         },
         {
+            "approvalStatus": "APPROVED",
             "name": "Python Intro",
             "description": "",
             "students": ["S555"],
@@ -17,6 +19,7 @@
             "lessons": []
         },
         {
+            "approvalStatus": "PENDING",
             "name": "logic",
             "description": "",
             "students": ["S555"],
@@ -25,6 +28,7 @@
             "lessons": []
         },
         {
+            "approvalStatus": "PENDING",
             "name": "yay",
             "description": "",
             "students": ["S555"],
@@ -33,14 +37,21 @@
             "lessons": []
         },
         {
-            "name": "Python",
-            "description": "",
-            "students": ["S555"],
+            "approvalStatus": "APPROVED",
+            "name": "J5va Basfffics",
+            "description": "Intro tfffa",
+            "students": ["S1"],
             "id": "C003",
-            "instructorId": "",
-            "lessons": []
+            "instructorId": "I001",
+            "lessons": [{
+                "optionalResources": [],
+                "id": "L001",
+                "title": "Intro Lesson",
+                "content": "Java basics content"
+            }]
         },
         {
+            "approvalStatus": "PENDING",
             "name": "C++",
             "description": "HARD AS FUCK",
             "students": [
@@ -57,6 +68,7 @@
             }]
         },
         {
+            "approvalStatus": "PENDING",
             "name": "Digital logic",
             "description": "dr. M will F U",
             "students": [
@@ -79,6 +91,118 @@
                     "content": ""
                 }
             ]
+        },
+        {
+            "approvalStatus": "APPROVED",
+            "name": "J5va Basfffics",
+            "description": "Intro tfffa",
+            "students": ["S1"],
+            "id": "C003",
+            "instructorId": "I001",
+            "lessons": [{
+                "optionalResources": [],
+                "id": "L001",
+                "title": "Intro Lesson",
+                "content": "Java basics content"
+            }]
+        },
+        {
+            "approvalStatus": "PENDING",
+            "name": "Pytrrrron Intro",
+            "description": "hamza is tired ",
+            "students": [],
+            "id": "C002",
+            "instructorId": "I001",
+            "lessons": [{
+                "optionalResources": [],
+                "id": "L002",
+                "title": "Advanced Lesson",
+                "content": "Python advanced content"
+            }]
+        },
+        {
+            "approvalStatus": "APPROVED",
+            "name": "J5va Basfffics",
+            "description": "Intro tfffa",
+            "students": [],
+            "id": "C003",
+            "instructorId": "I001",
+            "lessons": [{
+                "optionalResources": [],
+                "id": "L001",
+                "title": "Intro Lesson",
+                "content": "Java basics content"
+            }]
+        },
+        {
+            "approvalStatus": "PENDING",
+            "name": "Pytrrrron Intro",
+            "description": "hamza is tired ",
+            "students": [],
+            "id": "C002",
+            "instructorId": "I001",
+            "lessons": [{
+                "optionalResources": [],
+                "id": "L002",
+                "title": "Advanced Lesson",
+                "content": "Python advanced content"
+            }]
+        },
+        {
+            "approvalStatus": "APPROVED",
+            "name": "J5va Basfffics",
+            "description": "Intro tfffa",
+            "students": [],
+            "id": "C003",
+            "instructorId": "I001",
+            "lessons": [{
+                "optionalResources": [],
+                "id": "L001",
+                "title": "Intro Lesson",
+                "content": "Java basics content"
+            }]
+        },
+        {
+            "approvalStatus": "PENDING",
+            "name": "Pytrrrron Intro",
+            "description": "hamza is tired ",
+            "students": [],
+            "id": "C002",
+            "instructorId": "I001",
+            "lessons": [{
+                "optionalResources": [],
+                "id": "L002",
+                "title": "Advanced Lesson",
+                "content": "Python advanced content"
+            }]
+        },
+        {
+            "approvalStatus": "APPROVED",
+            "name": "J5va Basfffics",
+            "description": "Intro tfffa",
+            "students": [],
+            "id": "C003",
+            "instructorId": "I001",
+            "lessons": [{
+                "optionalResources": [],
+                "id": "L001",
+                "title": "Intro Lesson",
+                "content": "Java basics content"
+            }]
+        },
+        {
+            "approvalStatus": "PENDING",
+            "name": "Pytrrrron Intro",
+            "description": "hamza is tired ",
+            "students": [],
+            "id": "C002",
+            "instructorId": "I001",
+            "lessons": [{
+                "optionalResources": [],
+                "id": "L002",
+                "title": "Advanced Lesson",
+                "content": "Python advanced content"
+            }]
         }
     ],
     "lessons": [
@@ -93,6 +217,54 @@
             "id": "L002",
             "title": "Advanced Lesson",
             "content": "jhdhshsh"
+        },
+        {
+            "optionalResources": [],
+            "id": "L001",
+            "title": "Intro Lesson",
+            "content": "Java basics content"
+        },
+        {
+            "optionalResources": [],
+            "id": "L002",
+            "title": "Advanced Lesson",
+            "content": "Python advanced content"
+        },
+        {
+            "optionalResources": [],
+            "id": "L001",
+            "title": "Intro Lesson",
+            "content": "Java basics content"
+        },
+        {
+            "optionalResources": [],
+            "id": "L002",
+            "title": "Advanced Lesson",
+            "content": "Python advanced content"
+        },
+        {
+            "optionalResources": [],
+            "id": "L001",
+            "title": "Intro Lesson",
+            "content": "Java basics content"
+        },
+        {
+            "optionalResources": [],
+            "id": "L002",
+            "title": "Advanced Lesson",
+            "content": "Python advanced content"
+        },
+        {
+            "optionalResources": [],
+            "id": "L001",
+            "title": "Intro Lesson",
+            "content": "Java basics content"
+        },
+        {
+            "optionalResources": [],
+            "id": "L002",
+            "title": "Advanced Lesson",
+            "content": "Python advanced content"
         }
     ]
 }

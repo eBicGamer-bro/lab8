@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 
 public class Instructor extends User {
@@ -11,6 +10,8 @@ public class Instructor extends User {
 
     // Course management
     public void createCourse(Course course) {
+        // NEW: mark new course as PENDING
+        course.setApprovalStatus(Course.ApprovalStatus.PENDING);
         createdCourses.add(course);
     }
 
@@ -21,13 +22,13 @@ public class Instructor extends User {
     public void viewCreatedCourses() {
         System.out.println("Courses created by " + name + ":");
         for (Course c : createdCourses) {
-            System.out.println("- " + c.getName());
+            System.out.println("- " + c.getName() + " [" + c.getApprovalStatus() + "]");
         }
     }
 
     // Add or remove lessons to a course
     public void addLessonToCourse(Course course, Lesson lesson) {
-        if(createdCourses.contains(course)) {
+        if (createdCourses.contains(course)) {
             course.addLesson(lesson);
         } else {
             System.out.println("You did not create this course.");
@@ -35,7 +36,7 @@ public class Instructor extends User {
     }
 
     public void removeLessonFromCourse(Course course, Lesson lesson) {
-        if(createdCourses.contains(course)) {
+        if (createdCourses.contains(course)) {
             course.removeLesson(lesson);
         } else {
             System.out.println("You did not create this course.");
@@ -55,4 +56,3 @@ public class Instructor extends User {
         System.out.println("Instructor ID: " + id + ", Name: " + name + ", Email: " + email);
     }
 }
-

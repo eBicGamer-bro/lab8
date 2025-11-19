@@ -46,6 +46,17 @@ public class CourseLessonDB {
         return courses;
     }
 
+    // NEW: only approved courses for students
+    public ArrayList<Course> getApprovedCourses() {
+        ArrayList<Course> approved = new ArrayList<>();
+        for (Course c : courses) {
+            if (c.getApprovalStatus() == Course.ApprovalStatus.APPROVED) {
+                approved.add(c);
+            }
+        }
+        return approved;
+    }
+
     public ArrayList<Lesson> getLessons() {
         return lessons;
     }
@@ -65,6 +76,8 @@ public class CourseLessonDB {
                 co.put("name", c.getName());
                 co.put("instructorId", c.getInstructorId());
                 co.put("description", c.getDescription());
+                co.put("approvalStatus", c.getApprovalStatus().name()); // NEW
+
                 JSONArray lessonsArr = new JSONArray();
                 for (Lesson l : c.getLessons()) {
                     JSONObject lo = new JSONObject();
@@ -80,11 +93,14 @@ public class CourseLessonDB {
                     lessonsArr.put(lo);
                 }
                 co.put("lessons", lessonsArr);
+
                 JSONArray studs = new JSONArray();
                 for (Student s : c.getStudents()) studs.put(s.getId());
                 co.put("students", studs);
+
                 cArr.put(co);
             }
+
             JSONArray lArr = new JSONArray();
             for (Lesson l : lessons) {
                 JSONObject lo = new JSONObject();
@@ -99,11 +115,14 @@ public class CourseLessonDB {
                 lo.put("optionalResources", resArr);
                 lArr.put(lo);
             }
+
             obj.put("courses", cArr);
             obj.put("lessons", lArr);
+
             try (FileWriter writer = new FileWriter(filename)) {
                 writer.write(obj.toString(4));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,6 +141,7 @@ public class CourseLessonDB {
             JSONObject obj = new JSONObject(text.toString());
             courses.clear();
             lessons.clear();
+
             JSONArray cArr = obj.optJSONArray("courses");
             if (cArr != null) {
                 for (int i = 0; i < cArr.length(); i++) {
@@ -132,6 +152,11 @@ public class CourseLessonDB {
                             c.optString("instructorId", ""),
                             c.optString("description", "")
                     );
+
+                    // NEW: set approval status, default to PENDING
+                    String status = c.optString("approvalStatus", "PENDING");
+                    course.setApprovalStatus(Course.ApprovalStatus.valueOf(status));
+
                     JSONArray lArr = c.optJSONArray("lessons");
                     if (lArr != null) {
                         for (int j = 0; j < lArr.length(); j++) {
@@ -152,6 +177,7 @@ public class CourseLessonDB {
                             course.addLesson(lesson);
                         }
                     }
+
                     JSONArray sArr = c.optJSONArray("students");
                     if (sArr != null) {
                         for (int j = 0; j < sArr.length(); j++) {
@@ -163,6 +189,7 @@ public class CourseLessonDB {
                     courses.add(course);
                 }
             }
+
             JSONArray lArr = obj.optJSONArray("lessons");
             if (lArr != null) {
                 for (int i = 0; i < lArr.length(); i++) {
@@ -183,9 +210,9 @@ public class CourseLessonDB {
                     lessons.add(lesson);
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 }
-

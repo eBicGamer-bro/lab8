@@ -24,6 +24,70 @@
             "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
             "id": "S1",
             "email": "f@g.c"
+        },
+        {
+            "progresses": [],
+            "enrolledCourses": [],
+            "name": "Ali",
+            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+            "id": "S001",
+            "email": "ali@gmail.com"
+        },
+        {
+            "progresses": [],
+            "enrolledCourses": [],
+            "name": "Sara",
+            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+            "id": "S002",
+            "email": "sara@gmail.com"
+        },
+        {
+            "progresses": [],
+            "enrolledCourses": [],
+            "name": "Ali",
+            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+            "id": "S001",
+            "email": "ali@gmail.com"
+        },
+        {
+            "progresses": [],
+            "enrolledCourses": [],
+            "name": "Sara",
+            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+            "id": "S002",
+            "email": "sara@gmail.com"
+        },
+        {
+            "progresses": [],
+            "enrolledCourses": [],
+            "name": "Ali",
+            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+            "id": "S001",
+            "email": "ali@gmail.com"
+        },
+        {
+            "progresses": [],
+            "enrolledCourses": [],
+            "name": "Sara",
+            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+            "id": "S002",
+            "email": "sara@gmail.com"
+        },
+        {
+            "progresses": [],
+            "enrolledCourses": [],
+            "name": "Ali",
+            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+            "id": "S001",
+            "email": "ali@gmail.com"
+        },
+        {
+            "progresses": [],
+            "enrolledCourses": [],
+            "name": "Sara",
+            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
+            "id": "S002",
+            "email": "sara@gmail.com"
         }
     ],
     "instructors": [
@@ -40,6 +104,34 @@
             "createdCourses": [],
             "id": "I1",
             "email": "f@g.c"
+        },
+        {
+            "name": "Omar",
+            "hashPassword": "83cf8b609de60036a8277bd0e96135751bbc07eb234256d4b65b893360651bf2",
+            "createdCourses": [],
+            "id": "I001",
+            "email": "omar@gmail.com"
+        },
+        {
+            "name": "Omar",
+            "hashPassword": "83cf8b609de60036a8277bd0e96135751bbc07eb234256d4b65b893360651bf2",
+            "createdCourses": [],
+            "id": "I001",
+            "email": "omar@gmail.com"
+        },
+        {
+            "name": "Omar",
+            "hashPassword": "83cf8b609de60036a8277bd0e96135751bbc07eb234256d4b65b893360651bf2",
+            "createdCourses": [],
+            "id": "I001",
+            "email": "omar@gmail.com"
+        },
+        {
+            "name": "Omar",
+            "hashPassword": "83cf8b609de60036a8277bd0e96135751bbc07eb234256d4b65b893360651bf2",
+            "createdCourses": [],
+            "id": "I001",
+            "email": "omar@gmail.com"
         }
     ]
 }
