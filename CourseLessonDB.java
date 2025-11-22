@@ -66,6 +66,7 @@ public class CourseLessonDB {
         return Optional.empty();
     }
 
+
     private void save() {
         try {
             JSONObject obj = new JSONObject();
@@ -76,7 +77,7 @@ public class CourseLessonDB {
                 co.put("name", c.getName());
                 co.put("instructorId", c.getInstructorId());
                 co.put("description", c.getDescription());
-                co.put("approvalStatus", c.getApprovalStatus().name()); // NEW
+                co.put("approvalStatus", c.getApprovalStatus().name());
 
                 JSONArray lessonsArr = new JSONArray();
                 for (Lesson l : c.getLessons()) {
@@ -90,6 +91,29 @@ public class CourseLessonDB {
                         for (String r : res) resArr.put(r);
                     }
                     lo.put("optionalResources", resArr);
+
+                    // NEW: quiz serialization
+                    Quiz q = l.getQuiz();
+                    if (q != null) {
+                        JSONObject qObj = new JSONObject();
+                        qObj.put("timeLimitMillis", q.getTimeLimitMillis());
+                        qObj.put("maxAttempts", q.getMaxAttempts());
+                        JSONArray qQuestions = new JSONArray();
+                        for (Question qu : q.getQuestions()) {
+                            JSONObject qo = new JSONObject();
+                            qo.put("text", qu.getText());
+                            qo.put("correctIndex", qu.getCorrectIndex());
+                            JSONArray opts = new JSONArray();
+                            if (qu.getOptions() != null) {
+                                for (Option opt : qu.getOptions()) opts.put(opt.getText());
+                            }
+                            qo.put("options", opts);
+                            qQuestions.put(qo);
+                        }
+                        qObj.put("questions", qQuestions);
+                        lo.put("quiz", qObj);
+                    }
+
                     lessonsArr.put(lo);
                 }
                 co.put("lessons", lessonsArr);
@@ -101,6 +125,7 @@ public class CourseLessonDB {
                 cArr.put(co);
             }
 
+            // lessons array at root (kept for compatibility)
             JSONArray lArr = new JSONArray();
             for (Lesson l : lessons) {
                 JSONObject lo = new JSONObject();
@@ -153,7 +178,6 @@ public class CourseLessonDB {
                             c.optString("description", "")
                     );
 
-                    // NEW: set approval status, default to PENDING
                     String status = c.optString("approvalStatus", "PENDING");
                     course.setApprovalStatus(Course.ApprovalStatus.valueOf(status));
 
@@ -174,6 +198,36 @@ public class CourseLessonDB {
                             } else {
                                 lesson.setOptionalResources(new String[0]);
                             }
+
+                            // NEW: quiz deserialization
+                            JSONObject qObj = lo.optJSONObject("quiz");
+                            if (qObj != null) {
+                                Quiz quiz = new Quiz();
+                                quiz.setTimeLimitMillis(qObj.optLong("timeLimitMillis", 30L*3600L*1000L));
+                                quiz.setMaxAttempts(qObj.optInt("maxAttempts", 2));
+                                JSONArray qQuestions = qObj.optJSONArray("questions");
+                                if (qQuestions != null) {
+                                    ArrayList<Question> qlist = new ArrayList<>();
+                                    for (int qq = 0; qq < qQuestions.length(); qq++) {
+                                        JSONObject qo = qQuestions.getJSONObject(qq);
+                                        Question question = new Question();
+                                        question.setText(qo.optString("text", ""));
+                                        question.setCorrectIndex(qo.optInt("correctIndex", -1));
+                                        JSONArray opts = qo.optJSONArray("options");
+                                        ArrayList<Option> olist = new ArrayList<>();
+                                        if (opts != null) {
+                                            for (int oi = 0; oi < opts.length(); oi++) {
+                                                olist.add(new Option(opts.getString(oi)));
+                                            }
+                                        }
+                                        question.setOptions(olist);
+                                        qlist.add(question);
+                                    }
+                                    quiz.setQuestions(qlist);
+                                }
+                                lesson.setQuiz(quiz);
+                            }
+
                             course.addLesson(lesson);
                         }
                     }
@@ -215,4 +269,5 @@ public class CourseLessonDB {
             e.printStackTrace();
         }
     }
+
 }

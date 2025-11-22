@@ -20,7 +20,7 @@ public abstract class User {
         this.hashPassword = hashPassword;
     }
 
-    // Getters and setters
+
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -33,6 +33,6 @@ public abstract class User {
     public String getHashPassword() { return hashPassword; }
     public void setHashPassword(String hashPassword) { this.hashPassword = hashPassword; }
 
-    // Abstract method to display user info
+
     public abstract void showInfo();
 }
