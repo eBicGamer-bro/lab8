@@ -1,98 +1,34 @@
 {
     "courses": [
         {
-            "name": "Java Basics",
-            "description": "",
-            "students": [],
-            "id": "C001",
-            "instructorId": "",
-            "lessons": []
-        },
-        {
-            "name": "Python Intro",
-            "description": "",
-            "students": ["S555"],
-            "id": "C002",
-            "instructorId": "",
-            "lessons": []
-        },
-        {
-            "name": "logic",
-            "description": "",
-            "students": ["S555"],
-            "id": "c23",
-            "instructorId": "I400",
-            "lessons": []
-        },
-        {
-            "name": "yay",
-            "description": "",
-            "students": ["S555"],
-            "id": "c22",
-            "instructorId": "I400",
-            "lessons": []
-        },
-        {
-            "name": "Python",
-            "description": "",
-            "students": ["S555"],
-            "id": "C003",
-            "instructorId": "",
-            "lessons": []
-        },
-        {
-            "name": "C++",
-            "description": "HARD AS FUCK",
+            "approvalStatus": "APPROVED",
+            "name": "d",
+            "description": "d",
             "students": [
-                "S555",
-                "S1"
+                "S1",
+                "S123"
             ],
-            "id": "c9601",
-            "instructorId": "i555",
+            "id": "c3",
+            "instructorId": "i12",
             "lessons": [{
                 "optionalResources": [],
-                "id": "l888",
-                "title": "INTRO",
-                "content": ""
+                "id": "l7",
+                "title": "x",
+                "content": "x"
             }]
         },
         {
-            "name": "Digital logic",
-            "description": "dr. M will F U",
+            "approvalStatus": "APPROVED",
+            "name": "f",
+            "description": "f",
             "students": [
-                "S555",
-                "S1"
+                "S1",
+                "S123"
             ],
-            "id": "c555",
-            "instructorId": "i555",
-            "lessons": [
-                {
-                    "optionalResources": [],
-                    "id": "l555",
-                    "title": "FINALE",
-                    "content": ""
-                },
-                {
-                    "optionalResources": [],
-                    "id": "l999",
-                    "title": "SUMMER",
-                    "content": ""
-                }
-            ]
+            "id": "c1",
+            "instructorId": "i12",
+            "lessons": []
         }
     ],
-    "lessons": [
-        {
-            "optionalResources": [],
-            "id": "L001",
-            "title": "Intro Lesson",
-            "content": "hhshshsh"
-        },
-        {
-            "optionalResources": [],
-            "id": "L002",
-            "title": "Advanced Lesson",
-            "content": "jhdhshsh"
-        }
-    ]
+    "lessons": []
 }

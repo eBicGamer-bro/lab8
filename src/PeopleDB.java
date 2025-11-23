@@ -31,18 +31,9 @@ public class PeopleDB {
         save();
     }
 
-    public ArrayList<Student> getStudents() {
-        return students;
-    }
-
-    public ArrayList<Instructor> getInstructors() {
-        return instructors;
-    }
-
-    public ArrayList<Course> getCourses() {
-        return courses;
-    }
-
+    public ArrayList<Student> getStudents() { return students; }
+    public ArrayList<Instructor> getInstructors() { return instructors; }
+    public ArrayList<Course> getCourses() { return courses; }
 
     public void save() {
         try {
@@ -56,7 +47,6 @@ public class PeopleDB {
                 so.put("email", s.getEmail());
                 so.put("hashPassword", s.getHashPassword());
 
-                // quiz attempts
                 JSONArray attempts = new JSONArray();
                 for (QuizAttempt a : s.getQuizAttempts()) {
                     JSONObject ao = new JSONObject();
@@ -70,6 +60,10 @@ public class PeopleDB {
                     attempts.put(ao);
                 }
                 so.put("quizAttempts", attempts);
+
+                JSONArray comp = new JSONArray();
+                for (String key : s.getCompletedLessons()) comp.put(key);
+                so.put("completedLessons", comp);
 
                 studentsArr.put(so);
             }
@@ -117,37 +111,40 @@ public class PeopleDB {
                 for (int i = 0; i < sArr.length(); i++) {
                     JSONObject s = sArr.getJSONObject(i);
 
-                    if (s.has("id") && s.has("name") && s.has("email") && s.has("hashPassword")) {
-                        Student student = new Student(
-                                s.getString("id"),
-                                s.getString("name"),
-                                s.getString("email"),
-                                s.getString("hashPassword")
-                        );
+                    Student student = new Student(
+                            s.getString("id"),
+                            s.getString("name"),
+                            s.getString("email"),
+                            s.getString("hashPassword")
+                    );
 
-                        // quizAttempts
-                        JSONArray aArr = s.optJSONArray("quizAttempts");
-                        if (aArr != null) {
-                            ArrayList<QuizAttempt> attempts = new ArrayList<>();
-                            for (int ai = 0; ai < aArr.length(); ai++) {
-                                JSONObject ao = aArr.getJSONObject(ai);
-                                QuizAttempt qa = new QuizAttempt();
-                                qa.setStudentId(ao.optString("studentId", student.getId()));
-                                qa.setCourseId(ao.optString("courseId", ""));
-                                qa.setLessonId(ao.optString("lessonId", ""));
-                                qa.setScore(ao.optInt("score", 0));
-                                qa.setAttemptNumber(ao.optInt("attemptNumber", 1));
-                                qa.setPassed(ao.optBoolean("passed", false));
-                                qa.setTimestamp(ao.optLong("timestamp", System.currentTimeMillis()));
-                                attempts.add(qa);
-                            }
-                            student.setQuizAttempts(attempts);
+                    JSONArray aArr = s.optJSONArray("quizAttempts");
+                    if (aArr != null) {
+                        ArrayList<QuizAttempt> attempts = new ArrayList<>();
+                        for (int ai = 0; ai < aArr.length(); ai++) {
+                            JSONObject ao = aArr.getJSONObject(ai);
+                            QuizAttempt qa = new QuizAttempt();
+                            qa.setStudentId(ao.optString("studentId", student.getId()));
+                            qa.setCourseId(ao.optString("courseId", ""));
+                            qa.setLessonId(ao.optString("lessonId", ""));
+                            qa.setScore(ao.optInt("score", 0));
+                            qa.setAttemptNumber(ao.optInt("attemptNumber", 1));
+                            qa.setPassed(ao.optBoolean("passed", false));
+                            qa.setTimestamp(ao.optLong("timestamp", System.currentTimeMillis()));
+                            attempts.add(qa);
                         }
-
-                        students.add(student);
-                    } else {
-                        System.out.println("Error: Missing required fields for student at index " + i);
+                        student.setQuizAttempts(attempts);
                     }
+
+                    JSONArray cArr = s.optJSONArray("completedLessons");
+                    if (cArr != null) {
+                        ArrayList<String> cl = new ArrayList<>();
+                        for (int ci = 0; ci < cArr.length(); ci++)
+                            cl.add(cArr.getString(ci));
+                        student.setCompletedLessons(cl);
+                    }
+
+                    students.add(student);
                 }
             }
 
@@ -156,17 +153,13 @@ public class PeopleDB {
                 for (int i = 0; i < iArr.length(); i++) {
                     JSONObject ins = iArr.getJSONObject(i);
 
-                    if (ins.has("id") && ins.has("name") && ins.has("email") && ins.has("hashPassword")) {
-                        Instructor instructor = new Instructor(
-                                ins.getString("id"),
-                                ins.getString("name"),
-                                ins.getString("email"),
-                                ins.getString("hashPassword")
-                        );
-                        instructors.add(instructor);
-                    } else {
-                        System.out.println("Error: Missing required fields for instructor at index " + i);
-                    }
+                    Instructor instructor = new Instructor(
+                            ins.getString("id"),
+                            ins.getString("name"),
+                            ins.getString("email"),
+                            ins.getString("hashPassword")
+                    );
+                    instructors.add(instructor);
                 }
             }
 
@@ -174,5 +167,4 @@ public class PeopleDB {
             e.printStackTrace();
         }
     }
-
 }

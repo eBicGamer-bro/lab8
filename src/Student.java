@@ -4,20 +4,24 @@ public class Student extends User {
 
     private ArrayList<Course> enrolledCourses;
     private ArrayList<Progress> progresses;
-    private ArrayList<QuizAttempt> quizAttempts; // NEW
+    private ArrayList<QuizAttempt> quizAttempts;
+    private ArrayList<String> completedLessons;
 
     public Student(String id, String name, String email, String hashPassword) {
         super(id, name, email, hashPassword);
         enrolledCourses = new ArrayList<>();
         progresses = new ArrayList<>();
         quizAttempts = new ArrayList<>();
+        completedLessons = new ArrayList<>();
     }
 
     public ArrayList<Course> getEnrolledCourses() { return enrolledCourses; }
     public ArrayList<Progress> getProgresses() { return progresses; }
     public ArrayList<QuizAttempt> getQuizAttempts() { return quizAttempts; }
+    public ArrayList<String> getCompletedLessons() { return completedLessons; }
 
     public void setQuizAttempts(ArrayList<QuizAttempt> a) { quizAttempts = a; }
+    public void setCompletedLessons(ArrayList<String> a) { completedLessons = a; }
 
     public void addQuizAttempt(QuizAttempt a) { quizAttempts.add(a); }
 
@@ -43,6 +47,16 @@ public class Student extends User {
                 return;
             }
         }
+    }
+
+    public void markLessonCompleted(String courseId, String lessonId) {
+        String key = courseId + ":" + lessonId;
+        if (!completedLessons.contains(key))
+            completedLessons.add(key);
+    }
+
+    public boolean hasCompletedLesson(String courseId, String lessonId) {
+        return completedLessons.contains(courseId + ":" + lessonId);
     }
 
     public static class Progress {

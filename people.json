@@ -1,28 +1,35 @@
 {
-    "courses": [],
     "students": [
         {
-            "progresses": [],
-            "enrolledCourses": [],
+            "quizAttempts": [],
+            "completedLessons": [],
             "name": "tharwat",
             "hashPassword": "2934118e292b0506a41e364633d2b2323e3341279b77691d52d0e224cc819d68",
             "id": "S555",
             "email": "tharwat@gmail.com"
         },
         {
-            "progresses": [],
-            "enrolledCourses": [],
+            "quizAttempts": [],
+            "completedLessons": [],
             "name": "ssss",
             "hashPassword": "7eaed952052938979a37f16543d6de608e3180bcda54c5b6cf595998018e1e08",
             "id": "S69",
             "email": "sss@gmail.com"
         },
         {
-            "progresses": [],
-            "enrolledCourses": [],
+            "quizAttempts": [],
+            "completedLessons": [],
             "name": "fares",
             "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
             "id": "S1",
+            "email": "f@g.c"
+        },
+        {
+            "quizAttempts": [],
+            "completedLessons": [],
+            "name": "f",
+            "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+            "id": "S123",
             "email": "f@g.c"
         }
     ],
@@ -30,15 +37,19 @@
         {
             "name": "insta",
             "hashPassword": "7eaed952052938979a37f16543d6de608e3180bcda54c5b6cf595998018e1e08",
-            "createdCourses": [],
             "id": "I555",
             "email": "ssss@gmail.com"
         },
         {
             "name": "f",
             "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-            "createdCourses": [],
             "id": "I1",
+            "email": "f@g.c"
+        },
+        {
+            "name": "df",
+            "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+            "id": "I12",
             "email": "f@g.c"
         }
     ]
