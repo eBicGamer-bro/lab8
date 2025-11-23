@@ -116,11 +116,18 @@ public class LessonDashboard extends JFrame {
             dispose();
         });
     }
-
+    
     private void updateProgress() {
         int total = course.getLessons().size();
-        int completed = student.getCompletedLessons().size();
-        double percentage = ((double) completed / (double) total) * 100.0;
+        int completed = 0;
+
+        for (Lesson l : course.getLessons()) {
+            if (student.hasCompletedLesson(course.getId(), l.getId())) {
+                completed++;
+            }
+        }
+
+        double percentage = (total == 0) ? 0 : ((double) completed / (double) total) * 100.0;
         student.updateProgress(course.getId(), percentage);
     }
 
