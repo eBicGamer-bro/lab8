@@ -12,6 +12,7 @@ public class LessonManagerDialog extends JDialog {
     private JButton btnDelete = new JButton("Delete Lesson");
     private JButton btnClose = new JButton("Close");
     private JButton btnCreateQuiz = new JButton("Create Quiz");
+    private JButton btnViewInsights = new JButton("View Lesson Insights");
 
     public LessonManagerDialog(Window owner, CourseLessonDB db, String instructorId, Course course) {
         super(owner, "Manage Lessons - " + course.getName(), ModalityType.APPLICATION_MODAL);
@@ -28,11 +29,12 @@ public class LessonManagerDialog extends JDialog {
         setLayout(new BorderLayout());
         add(new JScrollPane(lessonJList), BorderLayout.CENTER);
 
-        JPanel btns = new JPanel(new GridLayout(5, 1, 6, 6));
+        JPanel btns = new JPanel(new GridLayout(6, 1, 6, 6));
         btns.add(btnAdd);
         btns.add(btnEdit);
         btns.add(btnDelete);
         btns.add(btnCreateQuiz);
+        btns.add(btnViewInsights);
         btns.add(btnClose);
         add(btns, BorderLayout.EAST);
 
@@ -40,6 +42,7 @@ public class LessonManagerDialog extends JDialog {
         btnEdit.addActionListener(e -> onEdit());
         btnDelete.addActionListener(e -> onDelete());
         btnCreateQuiz.addActionListener(e -> onCreateQuiz());
+        btnViewInsights.addActionListener(e -> onViewInsights());
         btnClose.addActionListener(e -> {
             db.updateCourse(course);
             setVisible(false);
@@ -53,7 +56,7 @@ public class LessonManagerDialog extends JDialog {
     }
 
     private void onAdd() {
-        LessonFormDialog dlg = new LessonFormDialog(this, "Add Lesson", null,course);
+        LessonFormDialog dlg = new LessonFormDialog(this, "Add Lesson", null, course);
         dlg.setVisible(true);
 
         if (dlg.isSaved()) {
@@ -68,16 +71,18 @@ public class LessonManagerDialog extends JDialog {
             loadLessons();
         }
     }
+
     private void onCreateQuiz() {
         Lesson selected = lessonJList.getSelectedValue();
         if (selected == null) {
             JOptionPane.showMessageDialog(this, "Please select a lesson first!");
             return;
         }
-        else if(selected.getQuiz() != null){
+        else if (selected.getQuiz() != null) {
             JOptionPane.showMessageDialog(this, "This Lesson Already has a Quiz!");
-        return;
-    }
+            return;
+        }
+
         CreateQuizDialog dlg = new CreateQuizDialog(this, course, selected);
         dlg.setVisible(true);
 
@@ -87,6 +92,21 @@ public class LessonManagerDialog extends JDialog {
         }
     }
 
+    private void onViewInsights() {
+        Lesson selected = lessonJList.getSelectedValue();
+        if (selected == null) {
+            JOptionPane.showMessageDialog(this, "Select a lesson.");
+            return;
+        }
+        if (selected.getQuiz() == null) {
+            JOptionPane.showMessageDialog(this, "This lesson has no quiz.");
+            return;
+        }
+
+        /*LessonInsightsDialog dlg = new LessonInsightsDialog(this, course, selected);
+        dlg.setVisible(true);*/
+    }
+
     private void onEdit() {
         Lesson selected = lessonJList.getSelectedValue();
         if (selected == null) {
@@ -94,7 +114,7 @@ public class LessonManagerDialog extends JDialog {
             return;
         }
 
-        LessonFormDialog dlg = new LessonFormDialog(this, "Edit Lesson", selected,course);
+        LessonFormDialog dlg = new LessonFormDialog(this, "Edit Lesson", selected, course);
         dlg.setVisible(true);
 
         if (dlg.isSaved()) {
@@ -132,6 +152,6 @@ public class LessonManagerDialog extends JDialog {
             course = fresh;
             loadLessons();
         }
-
     }
 }
+

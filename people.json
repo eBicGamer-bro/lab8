@@ -1,24 +1,46 @@
 {
-    "students": [{
-        "completedLessons": ["c1:l1"],
-        "quizAttempts": [{
-            "attemptNumber": 1,
-            "studentId": "S1",
-            "score": 9,
-            "lessonId": "l1",
-            "passed": true,
-            "courseId": "c1",
-            "timestamp": 1763922239516
-        }],
-        "progresses": [{
-            "percentage": 100,
-            "courseId": "c1"
-        }],
-        "name": "s",
-        "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-        "id": "S1",
-        "email": "s@g.c"
-    }],
+    "students": [
+        {
+            "completedLessons": ["c1:l1"],
+            "quizAttempts": [{
+                "attemptNumber": 1,
+                "studentId": "S1",
+                "score": 9,
+                "lessonId": "l1",
+                "passed": true,
+                "courseId": "c1",
+                "timestamp": 1763922239516
+            }],
+            "progresses": [{
+                "percentage": 100,
+                "courseId": "c1"
+            }],
+            "name": "s",
+            "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+            "id": "S1",
+            "email": "s@g.c"
+        },
+        {
+            "completedLessons": ["c1:l1"],
+            "quizAttempts": [{
+                "attemptNumber": 1,
+                "studentId": "S2",
+                "score": 10,
+                "lessonId": "l1",
+                "passed": true,
+                "courseId": "c1",
+                "timestamp": 1763933561646
+            }],
+            "progresses": [{
+                "percentage": 100,
+                "courseId": "c1"
+            }],
+            "name": "s",
+            "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+            "id": "S2",
+            "email": "s@g.c"
+        }
+    ],
     "admins": [{
         "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
         "name": "s",

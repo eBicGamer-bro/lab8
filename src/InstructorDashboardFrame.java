@@ -14,7 +14,7 @@ public class InstructorDashboardFrame extends JFrame {
     private JButton btnDelete = new JButton("Delete Course");
     private JButton btnLessons = new JButton("Manage Lessons");
     private JButton btnStudents = new JButton("View Enrolled Students");
-    //private JButton btnRefresh = new JButton("Refresh");
+    private JButton btnInsights = new JButton("View Insights");
     private JButton btnLogout = new JButton("Logout");
 
     public InstructorDashboardFrame(CourseLessonDB db, PeopleDB peopleDb, String instructorId) {
@@ -22,7 +22,7 @@ public class InstructorDashboardFrame extends JFrame {
         this.peopleDb = peopleDb;
         this.instructorId = instructorId;
         setTitle("Instructor Dashboard - " + instructorId);
-        setSize(800, 480);
+        setSize(900, 560);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         init();
@@ -36,13 +36,13 @@ public class InstructorDashboardFrame extends JFrame {
         courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         left.add(new JScrollPane(courseList), BorderLayout.CENTER);
 
-        JPanel leftButtons = new JPanel(new GridLayout(7, 1, 7, 7));
+        JPanel leftButtons = new JPanel(new GridLayout(8, 1, 7, 7));
         leftButtons.add(btnAdd);
         leftButtons.add(btnEdit);
         leftButtons.add(btnDelete);
         leftButtons.add(btnLessons);
         leftButtons.add(btnStudents);
-        //leftButtons.add(btnRefresh);
+        leftButtons.add(btnInsights);
         leftButtons.add(btnLogout);
 
         add(left, BorderLayout.CENTER);
@@ -53,7 +53,7 @@ public class InstructorDashboardFrame extends JFrame {
         btnDelete.addActionListener(e -> onDelete());
         btnLessons.addActionListener(e -> onLessons());
         btnStudents.addActionListener(e -> onViewStudents());
-       // btnRefresh.addActionListener(e -> loadCourses());
+        btnInsights.addActionListener(e -> onInsights());
         btnLogout.addActionListener(e -> onLogout());
     }
 
@@ -110,6 +110,13 @@ public class InstructorDashboardFrame extends JFrame {
         Course c = courseList.getSelectedValue();
         if (c == null) { JOptionPane.showMessageDialog(this, "Select a course."); return; }
         EnrolledStudentsDialog dlg = new EnrolledStudentsDialog(this, peopleDb, c);
+        dlg.setVisible(true);
+    }
+
+    private void onInsights() {
+        Course c = courseList.getSelectedValue();
+        if (c == null) { JOptionPane.showMessageDialog(this, "Select a course first."); return; }
+        InstructorInsightsDialog dlg = new InstructorInsightsDialog(this, c, peopleDb);
         dlg.setVisible(true);
     }
 

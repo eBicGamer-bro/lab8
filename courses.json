@@ -2,9 +2,12 @@
     "approvalStatus": "APPROVED",
     "name": "f",
     "description": "ss",
-    "students": ["S1"],
+    "students": [
+        "S1",
+        "S2"
+    ],
     "id": "c1",
-    "instructorId": "i1",
+    "instructorId": "I1",
     "lessons": [{
         "quiz": {
             "maxAttempts": 1,
