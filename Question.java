@@ -1,24 +1,45 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question {
     private String text;
-    private List<Option> options;
     private int correctIndex;
+    private ArrayList<Option> options;
 
-    public Question(String text, List<Option> options, int correctIndex) {
-        this.text = text;
-        this.options = options;
-        this.correctIndex = correctIndex;
+    public Question() {
+        options = new ArrayList<>();
     }
 
-    public Question() {}
+    public Question(String text) {
+        this.text = text;
+        this.options = new ArrayList<>();
+    }
 
-    public String getText() { return text; }
-    public void setText(String text) { this.text = text; }
+    public void addOption(String text) {
+        options.add(new Option(text));
+    }
 
-    public List<Option> getOptions() { return options; }
-    public void setOptions(List<Option> options) { this.options = options; }
+    public String getText() {
+        return text;
+    }
 
-    public int getCorrectIndex() { return correctIndex; }
-    public void setCorrectIndex(int correctIndex) { this.correctIndex = correctIndex; }
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public int getCorrectIndex() {
+        return correctIndex;
+    }
+
+    public void setCorrectIndex(int idx) {
+        this.correctIndex = idx;
+    }
+
+    public ArrayList<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(ArrayList<Option> opts) {
+        this.options = opts;
+    }
 }

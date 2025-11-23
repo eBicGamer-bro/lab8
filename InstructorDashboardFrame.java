@@ -36,7 +36,7 @@ public class InstructorDashboardFrame extends JFrame {
         courseList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         left.add(new JScrollPane(courseList), BorderLayout.CENTER);
 
-        JPanel leftButtons = new JPanel(new GridLayout(8, 1, 8, 8));
+        JPanel leftButtons = new JPanel(new GridLayout(7, 1, 7, 7));
         leftButtons.add(btnAdd);
         leftButtons.add(btnEdit);
         leftButtons.add(btnDelete);

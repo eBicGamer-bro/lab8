@@ -12,6 +12,7 @@ public class Login extends JFrame {
     private JButton backButton;
     private ValidationAndHashing v = new ValidationAndHashing();
 
+
     public Login() {
         setVisible(true);
         setSize(400,400);
@@ -21,7 +22,7 @@ public class Login extends JFrame {
         setContentPane(p1);
 
         PeopleDB p = new PeopleDB();
-
+        CourseLessonDB c = new CourseLessonDB();
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,14 +69,12 @@ public class Login extends JFrame {
                         }
                     }
                     setVisible(false);
-                    new studentDashboard(s);
+                    new studentDashboard(s,p,c);
                 }
                 else {
                     JOptionPane.showMessageDialog(null,"Login Successful\nWelcome " + name);
                     setVisible(false);
-                    PeopleDB peopleDB = new PeopleDB();
-                    CourseLessonDB courseLessonDB = new CourseLessonDB();
-                    new InstructorDashboardFrame(courseLessonDB,peopleDB,id);
+                    new InstructorDashboardFrame(c,p,id);
                 }
             }
         });

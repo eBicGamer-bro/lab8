@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class LessonDashboard extends JFrame {
@@ -10,6 +8,7 @@ public class LessonDashboard extends JFrame {
     private JList<String> lessonList;
     private JTextArea contentArea;
     private JButton markCompletedButton;
+    private JButton startQuizButton;
     private JButton backButton;
     private JLabel courseTitleLabel;
     private JProgressBar progressBar;
@@ -22,11 +21,22 @@ public class LessonDashboard extends JFrame {
     private JFrame parentFrame;
     private ArrayList<Lesson> lessons;
 
-    public LessonDashboard(Course course, Student student, JFrame parentFrame) {
+    private PeopleDB db;
+    private CourseLessonDB courseDb;
+
+    public LessonDashboard(Course course, Student student, JFrame parentFrame, PeopleDB db) {
         this.course = course;
         this.student = student;
         this.parentFrame = parentFrame;
-        this.lessons = new ArrayList<>(course.getLessons());
+        this.db = db;
+        this.courseDb = new CourseLessonDB();
+
+        lessons = new ArrayList<>();
+        for (Lesson l : course.getLessons()) {
+            if (!student.hasCompletedLesson(course.getId(), l.getId())) {
+                lessons.add(l);
+            }
+        }
 
         setTitle("Course View: " + course.getName());
         setSize(900, 600);
@@ -36,6 +46,7 @@ public class LessonDashboard extends JFrame {
         mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
+        // ***** TOP *****
         JPanel topPanel = new JPanel(new BorderLayout());
         backButton = new JButton("<< Back");
         courseTitleLabel = new JLabel("Course: " + course.getName(), SwingConstants.CENTER);
@@ -44,6 +55,7 @@ public class LessonDashboard extends JFrame {
         topPanel.add(backButton, BorderLayout.WEST);
         topPanel.add(courseTitleLabel, BorderLayout.CENTER);
 
+        // ***** LESSON LIST *****
         DefaultListModel<String> listModel = new DefaultListModel<>();
         for (Lesson l : lessons) listModel.addElement(l.getTitle());
 
@@ -53,6 +65,7 @@ public class LessonDashboard extends JFrame {
         listScrollPane = new JScrollPane(lessonList);
         listScrollPane.setBorder(BorderFactory.createTitledBorder("Lessons"));
 
+        // ***** CONTENT AREA *****
         contentArea = new JTextArea();
         contentArea.setEditable(false);
         contentArea.setLineWrap(true);
@@ -65,12 +78,20 @@ public class LessonDashboard extends JFrame {
         splitPane.setDividerLocation(250);
         splitPane.setResizeWeight(0.3);
 
+        // ***** BOTTOM PANEL *****
         JPanel bottomPanel = new JPanel(new BorderLayout(10, 0));
-        markCompletedButton = new JButton("Mark Current Lesson as Completed");
         progressBar = new JProgressBar(0, 100);
         progressBar.setStringPainted(true);
+
+        JPanel btnPanel = new JPanel();
+        startQuizButton = new JButton("Start Quiz");
+        markCompletedButton = new JButton("Mark Completed");
+
+        btnPanel.add(startQuizButton);
+        btnPanel.add(markCompletedButton);
+
         bottomPanel.add(progressBar, BorderLayout.CENTER);
-        bottomPanel.add(markCompletedButton, BorderLayout.EAST);
+        bottomPanel.add(btnPanel, BorderLayout.EAST);
 
         mainPanel.add(topPanel, BorderLayout.NORTH);
         mainPanel.add(splitPane, BorderLayout.CENTER);
@@ -80,6 +101,7 @@ public class LessonDashboard extends JFrame {
 
         updateProgressBar();
 
+        // ***** EVENTS *****
         lessonList.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int idx = lessonList.getSelectedIndex();
@@ -90,37 +112,48 @@ public class LessonDashboard extends JFrame {
             }
         });
 
-        markCompletedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int idx = lessonList.getSelectedIndex();
-                if (idx == -1) {
-                    JOptionPane.showMessageDialog(LessonDashboard.this,
-                            "Please select a lesson first.");
-                    return;
-                }
-
-                if (lessons.isEmpty()) return;
-
-                double increment = 100.0 / lessons.size();
-
-                double currentP = 0;
-                for (Student.Progress p : student.getProgresses()) {
-                    if (p.getCourse().getId().equals(course.getId())) {
-                        currentP = p.getPercentage();
-                        break;
-                    }
-                }
-
-                double newProgress = Math.min(100.0, currentP + increment);
-                student.updateProgress(course.getId(), newProgress);
-
-                removeLessonFromList(idx);
-
-                updateProgressBar();
-                JOptionPane.showMessageDialog(LessonDashboard.this,
-                        "Lesson completed and removed!");
+        // ***** START QUIZ BUTTON *****
+        startQuizButton.addActionListener(e -> {
+            int idx = lessonList.getSelectedIndex();
+            if (idx == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a lesson first.");
+                return;
             }
+
+            Lesson lesson = lessons.get(idx);
+
+            // retry limit = 1
+            int attempts = student.countAttemptsFor(course.getId(), lesson.getId());
+            if (attempts >= 1) {
+                JOptionPane.showMessageDialog(this,
+                        "You already used your only attempt.\nRetry limit = 1.",
+                        "No Attempts Left",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            // open quiz
+            new QuizFrame(courseDb, db, course, lesson, student).setVisible(true);
+        });
+
+        // ***** MARK COMPLETED BUTTON *****
+        markCompletedButton.addActionListener(e -> {
+            int idx = lessonList.getSelectedIndex();
+            if (idx == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a lesson first.");
+                return;
+            }
+
+            Lesson lesson = lessons.get(idx);
+
+            student.markLessonCompleted(course.getId(), lesson.getId());
+            student.updateCourseProgress(course);
+
+            removeLessonFromList(idx);
+            updateProgressBar();
+            db.save();
+
+            JOptionPane.showMessageDialog(this, "Lesson marked as completed!");
         });
 
         backButton.addActionListener(e -> {
@@ -139,7 +172,7 @@ public class LessonDashboard extends JFrame {
         for (Student.Progress p : student.getProgresses()) {
             if (p.getCourse().getId().equals(course.getId())) {
                 progressBar.setValue((int) p.getPercentage());
-                break;
+                return;
             }
         }
     }

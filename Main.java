@@ -1,15 +1,39 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        new WelcomeMenu();
+        // PEOPLE database
+        /*PeopleDB peopleDB = new PeopleDB();
+        Student s1 = new Student("S001", "Ali", "ali@gmail.com", "hashed123");
+        Student s2 = new Student("S002", "Sara", "sara@gmail.com", "hashed456");
+        Instructor i1 = new Instructor("I001", "Omar", "omar@gmail.com", "pass999");
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        peopleDB.addStudent(s1);
+        peopleDB.addStudent(s2);
+        peopleDB.addInstructor(i1);
+
+        // COURSES + LESSONS database
+        CourseLessonDB courseDB = new CourseLessonDB();
+        Course c1 = new Course("C001", "Java Basics");
+        Course c2 = new Course("C002", "Python Intro");
+        Lesson l1 = new Lesson("L001", "Intro Lesson","hhshshsh");
+        Lesson l2 = new Lesson("L002", "Advanced Lesson","jhdhshsh");
+
+        courseDB.addCourse(c1);
+        courseDB.addCourse(c2);
+        courseDB.addLesson(l1);
+        courseDB.addLesson(l2);
+
+        // Display loaded data
+        System.out.println("\nStudents:");
+        for (Student st : peopleDB.getStudents()) System.out.println(st.getId() + " - " + st.getName());
+
+        System.out.println("\nInstructors:");
+        for (Instructor ins : peopleDB.getInstructors()) System.out.println(ins.getId() + " - " + ins.getName());
+
+        System.out.println("\nCourses:");
+        for (Course co : courseDB.getCourses()) System.out.println(co.getId() + " - " + co.getName());
+
+        System.out.println("\nLessons:");
+        for (Lesson le : courseDB.getLessons()) System.out.println(le.getId() + " - " + le.getId());*/
     }
 }

@@ -10,12 +10,14 @@ public class LessonFormDialog extends JDialog {
     private JButton btnCancel = new JButton("Cancel");
     private boolean saved = false;
     private ValidationAndHashing v = new ValidationAndHashing();
+    private Course course;
 
-    public LessonFormDialog(Window owner, String title, Lesson lesson) {
+    public LessonFormDialog(Window owner, String title, Lesson lesson,Course course) {
         super(owner, title, ModalityType.APPLICATION_MODAL);
         setSize(420, 420);
         setLocationRelativeTo(owner);
         init(lesson);
+        this.course = course;
     }
 
     private void init(Lesson lesson) {
@@ -72,13 +74,13 @@ public class LessonFormDialog extends JDialog {
                 return;
             }
 
-            if (!v.validID(id, "Lesson")) {
-                JOptionPane.showMessageDialog(this, "Invalid Lesson ID.\nMust start with L followed by digits.");
+            if (tfLessonId.isEnabled() && !v.validID(id, "Lesson")) {
+                JOptionPane.showMessageDialog(this, "Invalid Lesson ID.");
                 return;
             }
 
-            if (tfLessonId.isEnabled() && v.lessonIdExist(id)) {
-                JOptionPane.showMessageDialog(this, "This Lesson ID already exists for this course.");
+            if (tfLessonId.isEnabled() && v.lessonIdExist(id,course)) {
+                JOptionPane.showMessageDialog(this, "This Lesson ID already exists.");
                 return;
             }
 
@@ -113,4 +115,5 @@ public class LessonFormDialog extends JDialog {
         return list.toArray(new String[0]);
     }
 }
+
 

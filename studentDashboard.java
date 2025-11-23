@@ -15,13 +15,14 @@ public class studentDashboard extends JFrame {
     private DefaultTableModel model1; // Available Courses
     private DefaultTableModel model2; // Enrolled Courses
 
-    // Fields
     private Student currentStudent;
     private CourseLessonDB acourses;
     private ArrayList<Course> allCourses;
-
-    public studentDashboard(Student student) {
+    private PeopleDB db;
+    public studentDashboard(Student student,PeopleDB db,CourseLessonDB cb) {
         this.currentStudent = student;
+        this.db = db;
+        acourses = cb;
 
         // 1. Setup GUI
         setContentPane(panel1);
@@ -41,8 +42,6 @@ public class studentDashboard extends JFrame {
         availableCourses.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         enrolledCourses.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        // 3. Load Data from Database
-        acourses = new CourseLessonDB();
 
         // ONLY approved courses for students
         allCourses = acourses.getApprovedCourses();
@@ -121,7 +120,7 @@ public class studentDashboard extends JFrame {
 
                 if (selectedCourse != null) {
                     // Opens the Lesson view to access lessons
-                    new LessonDashboard(selectedCourse, currentStudent, studentDashboard.this).setVisible(true);
+                    new LessonDashboard(selectedCourse, currentStudent, studentDashboard.this,db).setVisible(true);
                     setVisible(false);
                 }
             }
