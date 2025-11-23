@@ -6,7 +6,7 @@ public class WelcomeMenu extends JFrame {
     private JPanel p1;
     private JButton loginButton1;
     private JButton signupButton;
-    private JButton adminButton; // Make sure Field Name in Designer is exactly "adminButton"
+    private JButton adminButton; // Must match field name in Designer
 
     public WelcomeMenu() {
         setVisible(true);
@@ -14,8 +14,6 @@ public class WelcomeMenu extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Welcome Menu");
         setLocationRelativeTo(null);
-
-        // IMPORTANT: load your GUI panel first
         setContentPane(p1);
 
         PeopleDB peopleDB = new PeopleDB();
@@ -26,7 +24,7 @@ public class WelcomeMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                new Login(); // opens your existing Login window
+                new Login();
             }
         });
 
@@ -35,7 +33,7 @@ public class WelcomeMenu extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setVisible(false);
-                new Signup(); // opens your existing Signup window
+                new Signup();
             }
         });
 
@@ -43,24 +41,30 @@ public class WelcomeMenu extends JFrame {
         adminButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JTextField adminNameField = new JTextField();
+                JTextField adminIDField = new JTextField();
                 JPasswordField adminPassField = new JPasswordField();
                 Object[] message = {
-                        "Admin Name:", adminNameField,
+                        "Admin ID:", adminIDField,
                         "Password:", adminPassField
                 };
 
                 int option = JOptionPane.showConfirmDialog(null, message, "Admin Login", JOptionPane.OK_CANCEL_OPTION);
                 if (option == JOptionPane.OK_OPTION) {
-                    String adminName = adminNameField.getText();
-                    String adminPass = new String(adminPassField.getPassword());
+                    String adminID = adminIDField.getText().trim().toUpperCase();
+                    String adminPass = new String(adminPassField.getPassword()).trim();
 
-                    if(adminName.equalsIgnoreCase("hamza") && adminPass.equals("1234")){
-                        JOptionPane.showMessageDialog(null, "Admin Login Successful");
+                    if(adminID.isEmpty() || adminPass.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Enter ID and Password");
+                        return;
+                    }
+
+                    Admin admin = peopleDB.loginAdmin(adminID, adminPass);
+                    if(admin != null){
+                        JOptionPane.showMessageDialog(null, "Admin Login Successful\nWelcome " + admin.getName());
                         setVisible(false);
-                        new AdminDashboard(); // opens your Admin dashboard
+                        new AdminDashboard(admin, peopleDB.getCourses());
                     } else {
-                        JOptionPane.showMessageDialog(null, "Incorrect Admin Credentials");
+                        JOptionPane.showMessageDialog(null, "Incorrect Admin ID or Password");
                     }
                 }
             }

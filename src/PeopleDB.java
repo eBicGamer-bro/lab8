@@ -8,32 +8,34 @@ public class PeopleDB {
     private ArrayList<Student> students;
     private ArrayList<Instructor> instructors;
     private ArrayList<Course> courses;
+    private ArrayList<Admin> admins;
 
     public PeopleDB() {
         students = new ArrayList<>();
         instructors = new ArrayList<>();
         courses = new ArrayList<>();
+        admins = new ArrayList<>();
         load();
     }
 
+    // --- Getters ---
     public ArrayList<Student> getStudents() { return students; }
     public ArrayList<Instructor> getInstructors() { return instructors; }
     public ArrayList<Course> getCourses() { return courses; }
+    public ArrayList<Admin> getAdmins() { return admins; }
 
+    // --- Find methods ---
     public Course findCourseById(String id) {
-        for (Course c : courses) {
-            if (c.getId().equals(id)) return c;
-        }
+        for (Course c : courses) if (c.getId().equals(id)) return c;
         return null;
     }
 
     public Student findStudentById(String id) {
-        for (Student s : students) {
-            if (s.getId().equals(id)) return s;
-        }
+        for (Student s : students) if (s.getId().equals(id)) return s;
         return null;
     }
 
+    // --- Student methods ---
     public void updateStudent(Student updated) {
         for (int i = 0; i < students.size(); i++) {
             if (students.get(i).getId().equals(updated.getId())) {
@@ -51,11 +53,13 @@ public class PeopleDB {
         save();
     }
 
+    // --- Instructor methods ---
     public void addInstructor(Instructor i) {
         instructors.add(i);
         save();
     }
 
+    // --- Course methods ---
     public void addCourse(Course c) {
         courses.add(c);
         save();
@@ -73,10 +77,29 @@ public class PeopleDB {
         save();
     }
 
+    // --- Admin methods ---
+    public boolean addAdmin(Admin a) {
+        for (Admin adm : admins) {
+            if (adm.getId().equalsIgnoreCase(a.getId())) return false; // prevent duplicate ID
+        }
+        admins.add(a);
+        save();
+        return true;
+    }
+
+    public Admin loginAdmin(String id, String password) {
+        for (Admin adm : admins) {
+            if (adm.getId().equalsIgnoreCase(id) && adm.getPassword().equals(password)) return adm;
+        }
+        return null;
+    }
+
+    // --- Save all data to JSON ---
     public void save() {
         try {
             JSONObject obj = new JSONObject();
 
+            // Courses
             JSONArray coursesArr = new JSONArray();
             for (Course c : courses) {
                 JSONObject co = new JSONObject();
@@ -93,9 +116,7 @@ public class PeopleDB {
                     lo.put("content", l.getContent());
                     String[] ress = l.getOptionalResources();
                     JSONArray resArr = new JSONArray();
-                    if (ress != null) {
-                        for (String r : ress) resArr.put(r);
-                    }
+                    if (ress != null) for (String r : ress) resArr.put(r);
                     lo.put("optionalResources", resArr);
                     lessonsArr.put(lo);
                 }
@@ -108,6 +129,7 @@ public class PeopleDB {
                 coursesArr.put(co);
             }
 
+            // Students
             JSONArray studentsArr = new JSONArray();
             for (Student s : students) {
                 JSONObject so = new JSONObject();
@@ -146,6 +168,7 @@ public class PeopleDB {
                 studentsArr.put(so);
             }
 
+            // Instructors
             JSONArray instructorsArr = new JSONArray();
             for (Instructor ins : instructors) {
                 JSONObject io = new JSONObject();
@@ -156,18 +179,32 @@ public class PeopleDB {
                 instructorsArr.put(io);
             }
 
+            // Admins
+            JSONArray adminsArr = new JSONArray();
+            for (Admin a : admins) {
+                JSONObject ao = new JSONObject();
+                ao.put("id", a.getId());
+                ao.put("name", a.getName());
+                ao.put("password", a.getPassword());
+                adminsArr.put(ao);
+            }
+
+            // Put everything in main object
             obj.put("courses", coursesArr);
             obj.put("students", studentsArr);
             obj.put("instructors", instructorsArr);
+            obj.put("admins", adminsArr);
 
             try (FileWriter writer = new FileWriter(filename)) {
                 writer.write(obj.toString(4));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    // --- Load data from JSON ---
     private void load() {
         try {
             File file = new File(filename);
@@ -185,7 +222,9 @@ public class PeopleDB {
             students.clear();
             instructors.clear();
             courses.clear();
+            admins.clear();
 
+            // Load courses
             JSONArray cArr = obj.optJSONArray("courses");
             if (cArr != null) {
                 for (int i = 0; i < cArr.length(); i++) {
@@ -226,6 +265,7 @@ public class PeopleDB {
                 }
             }
 
+            // Load students
             JSONArray sArr = obj.optJSONArray("students");
             if (sArr != null) {
                 for (int i = 0; i < sArr.length(); i++) {
@@ -279,6 +319,7 @@ public class PeopleDB {
                 }
             }
 
+            // Load instructors
             JSONArray iArr = obj.optJSONArray("instructors");
             if (iArr != null) {
                 for (int i = 0; i < iArr.length(); i++) {
@@ -292,6 +333,21 @@ public class PeopleDB {
                     instructors.add(instructor);
                 }
             }
+
+            // Load admins
+            JSONArray aArr = obj.optJSONArray("admins");
+            if (aArr != null) {
+                for (int i = 0; i < aArr.length(); i++) {
+                    JSONObject ad = aArr.getJSONObject(i);
+                    Admin admin = new Admin(
+                            ad.optString("id", ""),
+                            ad.optString("name", ""),
+                            ad.optString("password", "")
+                    );
+                    admins.add(admin);
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
