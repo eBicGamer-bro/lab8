@@ -46,6 +46,17 @@ public class CourseLessonDB {
         return courses;
     }
 
+    // NEW: only approved courses for students
+    public ArrayList<Course> getApprovedCourses() {
+        ArrayList<Course> approved = new ArrayList<>();
+        for (Course c : courses) {
+            if (c.getApprovalStatus() == Course.ApprovalStatus.APPROVED) {
+                approved.add(c);
+            }
+        }
+        return approved;
+    }
+
     public ArrayList<Lesson> getLessons() {
         return lessons;
     }
@@ -54,6 +65,7 @@ public class CourseLessonDB {
         for (Course c : courses) if (c.getId().equals(id)) return Optional.of(c);
         return Optional.empty();
     }
+
 
     private void save() {
         try {
@@ -65,6 +77,8 @@ public class CourseLessonDB {
                 co.put("name", c.getName());
                 co.put("instructorId", c.getInstructorId());
                 co.put("description", c.getDescription());
+                co.put("approvalStatus", c.getApprovalStatus().name());
+
                 JSONArray lessonsArr = new JSONArray();
                 for (Lesson l : c.getLessons()) {
                     JSONObject lo = new JSONObject();
@@ -77,14 +91,41 @@ public class CourseLessonDB {
                         for (String r : res) resArr.put(r);
                     }
                     lo.put("optionalResources", resArr);
+
+                    // NEW: quiz serialization
+                    Quiz q = l.getQuiz();
+                    if (q != null) {
+                        JSONObject qObj = new JSONObject();
+                        qObj.put("timeLimitMillis", q.getTimeLimitMillis());
+                        qObj.put("maxAttempts", q.getMaxAttempts());
+                        JSONArray qQuestions = new JSONArray();
+                        for (Question qu : q.getQuestions()) {
+                            JSONObject qo = new JSONObject();
+                            qo.put("text", qu.getText());
+                            qo.put("correctIndex", qu.getCorrectIndex());
+                            JSONArray opts = new JSONArray();
+                            if (qu.getOptions() != null) {
+                                for (Option opt : qu.getOptions()) opts.put(opt.getText());
+                            }
+                            qo.put("options", opts);
+                            qQuestions.put(qo);
+                        }
+                        qObj.put("questions", qQuestions);
+                        lo.put("quiz", qObj);
+                    }
+
                     lessonsArr.put(lo);
                 }
                 co.put("lessons", lessonsArr);
+
                 JSONArray studs = new JSONArray();
                 for (Student s : c.getStudents()) studs.put(s.getId());
                 co.put("students", studs);
+
                 cArr.put(co);
             }
+
+            // lessons array at root (kept for compatibility)
             JSONArray lArr = new JSONArray();
             for (Lesson l : lessons) {
                 JSONObject lo = new JSONObject();
@@ -99,11 +140,14 @@ public class CourseLessonDB {
                 lo.put("optionalResources", resArr);
                 lArr.put(lo);
             }
+
             obj.put("courses", cArr);
             obj.put("lessons", lArr);
+
             try (FileWriter writer = new FileWriter(filename)) {
                 writer.write(obj.toString(4));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,6 +166,7 @@ public class CourseLessonDB {
             JSONObject obj = new JSONObject(text.toString());
             courses.clear();
             lessons.clear();
+
             JSONArray cArr = obj.optJSONArray("courses");
             if (cArr != null) {
                 for (int i = 0; i < cArr.length(); i++) {
@@ -132,6 +177,10 @@ public class CourseLessonDB {
                             c.optString("instructorId", ""),
                             c.optString("description", "")
                     );
+
+                    String status = c.optString("approvalStatus", "PENDING");
+                    course.setApprovalStatus(Course.ApprovalStatus.valueOf(status));
+
                     JSONArray lArr = c.optJSONArray("lessons");
                     if (lArr != null) {
                         for (int j = 0; j < lArr.length(); j++) {
@@ -149,9 +198,40 @@ public class CourseLessonDB {
                             } else {
                                 lesson.setOptionalResources(new String[0]);
                             }
+
+                            // NEW: quiz deserialization
+                            JSONObject qObj = lo.optJSONObject("quiz");
+                            if (qObj != null) {
+                                Quiz quiz = new Quiz();
+                                quiz.setTimeLimitMillis(qObj.optLong("timeLimitMillis", 30L*3600L*1000L));
+                                quiz.setMaxAttempts(qObj.optInt("maxAttempts", 2));
+                                JSONArray qQuestions = qObj.optJSONArray("questions");
+                                if (qQuestions != null) {
+                                    ArrayList<Question> qlist = new ArrayList<>();
+                                    for (int qq = 0; qq < qQuestions.length(); qq++) {
+                                        JSONObject qo = qQuestions.getJSONObject(qq);
+                                        Question question = new Question();
+                                        question.setText(qo.optString("text", ""));
+                                        question.setCorrectIndex(qo.optInt("correctIndex", -1));
+                                        JSONArray opts = qo.optJSONArray("options");
+                                        ArrayList<Option> olist = new ArrayList<>();
+                                        if (opts != null) {
+                                            for (int oi = 0; oi < opts.length(); oi++) {
+                                                olist.add(new Option(opts.getString(oi)));
+                                            }
+                                        }
+                                        question.setOptions(olist);
+                                        qlist.add(question);
+                                    }
+                                    quiz.setQuestions(qlist);
+                                }
+                                lesson.setQuiz(quiz);
+                            }
+
                             course.addLesson(lesson);
                         }
                     }
+
                     JSONArray sArr = c.optJSONArray("students");
                     if (sArr != null) {
                         for (int j = 0; j < sArr.length(); j++) {
@@ -163,6 +243,7 @@ public class CourseLessonDB {
                     courses.add(course);
                 }
             }
+
             JSONArray lArr = obj.optJSONArray("lessons");
             if (lArr != null) {
                 for (int i = 0; i < lArr.length(); i++) {
@@ -183,9 +264,10 @@ public class CourseLessonDB {
                     lessons.add(lesson);
                 }
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-}
 
+}
