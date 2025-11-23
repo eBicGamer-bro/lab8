@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CreateQuizDialog extends JDialog {
     private Course course;
     private Lesson lesson;
-    private Quiz quiz;
+    private Quiz quiz = new Quiz();
     private ArrayList<Question> questions;
     private JPanel Panel;
     private JTextField textFieldQuestion;
@@ -29,7 +29,7 @@ public class CreateQuizDialog extends JDialog {
     public CreateQuizDialog(Window owner, Course course, Lesson lesson) {
         super(owner, "Create Quiz", ModalityType.APPLICATION_MODAL);
 
-        setSize(800, 800);
+        setSize(800, 500);
         setLocationRelativeTo(owner);
         setContentPane(Panel);
 
@@ -85,17 +85,17 @@ public class CreateQuizDialog extends JDialog {
                 options.add(new Option(c3));
                 options.add(new Option(c4));
 
-                questions.add(new Question(question, options, correct));
+                questions.add(new Question(question, options, correct-1));
 
                 tableModel.addRow(new Object[]{question, correct});
 
                 JOptionPane.showMessageDialog(null, "Question Added! (" + questions.size() + "/10)");
 
-                textFieldQuestion.setText("");
+                /*textFieldQuestion.setText("");
                 a1TextField.setText("");
                 a2TextField.setText("");
                 a3TextField.setText("");
-                a4TextField.setText("");
+                a4TextField.setText("");*/
             }
         });
 
@@ -106,7 +106,9 @@ public class CreateQuizDialog extends JDialog {
                     JOptionPane.showMessageDialog(null, "Quiz Must Have 10 Questions");
                     return;
                 } else {
-                    quiz = new Quiz(questions);
+                    for(int i = 0;i<questions.size();i++){
+                        quiz.addQuestion(questions.get(i));
+                    }
                     lesson.setQuiz(quiz);
                     saved = true;
                     dispose();

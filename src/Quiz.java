@@ -1,40 +1,57 @@
 import java.util.ArrayList;
-import java.util.List;
 
 public class Quiz {
-    private List<Question> questions;
-    private long timeLimitMillis = 30L * 60L * 1000L;
-    private int maxAttempts = 2; // Attempt + Retry
+
     public static final int REQUIRED_QUESTIONS = 10;
+
+    private long timeLimitMillis;
+    private int maxAttempts;
+    private ArrayList<Question> questions;
 
     public Quiz() {
         questions = new ArrayList<>();
+        timeLimitMillis = 30 * 60 * 1000; // 30 minutes
+        maxAttempts = 1;
     }
 
-    public Quiz(List<Question> questions) {
+    public long getTimeLimitMillis() {
+        return timeLimitMillis;
+    }
+
+    public void setTimeLimitMillis(long timeLimitMillis) {
+        this.timeLimitMillis = timeLimitMillis;
+    }
+
+    public int getMaxAttempts() {
+        return maxAttempts;
+    }
+
+    public void setMaxAttempts(int maxAttempts) {
+        this.maxAttempts = maxAttempts;
+    }
+
+    public ArrayList<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
     }
 
-    public List<Question> getQuestions() { return questions; }
-    public void setQuestions(List<Question> questions) { this.questions = questions; }
-
-    public long getTimeLimitMillis() { return timeLimitMillis; }
-    public void setTimeLimitMillis(long timeLimitMillis) { this.timeLimitMillis = timeLimitMillis; }
-
-    public int getMaxAttempts() { return maxAttempts; }
-    public void setMaxAttempts(int maxAttempts) { this.maxAttempts = maxAttempts; }
+    public void addQuestion(Question q) {
+        if (questions.size() < REQUIRED_QUESTIONS)
+            questions.add(q);
+    }
 
     public int grade(int[] answers) {
-        int correct = 0;
+        int score = 0;
         for (int i = 0; i < questions.size(); i++) {
-            if (answers[i] == questions.get(i).getCorrectIndex()) {
-                correct++;
-            }
+            if (answers[i] == questions.get(i).getCorrectIndex()) score++;
         }
-        return correct;
+        return score;
     }
 
     public boolean isPassed(int score) {
-        return score >= REQUIRED_QUESTIONS / 2;
+        return score >= 5;
     }
 }
