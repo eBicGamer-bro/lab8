@@ -11,6 +11,7 @@ public class LessonManagerDialog extends JDialog {
     private JButton btnEdit = new JButton("Edit Lesson");
     private JButton btnDelete = new JButton("Delete Lesson");
     private JButton btnClose = new JButton("Close");
+    private JButton btnCreateQuiz = new JButton("Create Quiz");
 
     public LessonManagerDialog(Window owner, CourseLessonDB db, String instructorId, Course course) {
         super(owner, "Manage Lessons - " + course.getName(), ModalityType.APPLICATION_MODAL);
@@ -27,16 +28,18 @@ public class LessonManagerDialog extends JDialog {
         setLayout(new BorderLayout());
         add(new JScrollPane(lessonJList), BorderLayout.CENTER);
 
-        JPanel btns = new JPanel(new GridLayout(4, 1, 6, 6));
+        JPanel btns = new JPanel(new GridLayout(5, 1, 6, 6));
         btns.add(btnAdd);
         btns.add(btnEdit);
         btns.add(btnDelete);
+        btns.add(btnCreateQuiz);
         btns.add(btnClose);
         add(btns, BorderLayout.EAST);
 
         btnAdd.addActionListener(e -> onAdd());
         btnEdit.addActionListener(e -> onEdit());
         btnDelete.addActionListener(e -> onDelete());
+        btnCreateQuiz.addActionListener(e -> onCreateQuiz());
         btnClose.addActionListener(e -> {
             db.updateCourse(course);
             setVisible(false);
@@ -63,6 +66,24 @@ public class LessonManagerDialog extends JDialog {
             db.updateCourse(fresh);
             course = fresh;
             loadLessons();
+        }
+    }
+    private void onCreateQuiz() {
+        Lesson selected = lessonJList.getSelectedValue();
+        if (selected == null) {
+            JOptionPane.showMessageDialog(this, "Please select a lesson first!");
+            return;
+        }
+        else if(selected.getQuiz() != null){
+            JOptionPane.showMessageDialog(this, "This Lesson Already has a Quiz!");
+        return;
+    }
+        CreateQuizDialog dlg = new CreateQuizDialog(this, course, selected);
+        dlg.setVisible(true);
+
+        if (dlg.isSaved()) {
+            db.updateCourse(course);
+            JOptionPane.showMessageDialog(this, "Quiz created for lesson: " + selected.getTitle());
         }
     }
 
@@ -111,5 +132,6 @@ public class LessonManagerDialog extends JDialog {
             course = fresh;
             loadLessons();
         }
+
     }
 }

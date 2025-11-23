@@ -62,7 +62,7 @@ public class CourseLessonDB {
         return false;
     }
 
-    private void save() {
+    public void save() {
         try {
             JSONObject obj = new JSONObject();
             JSONArray cArr = new JSONArray();

@@ -9,10 +9,13 @@
     }],
     "students": [
         {
-            "completedLessons": ["C102:l1"],
+            "completedLessons": [
+                "C102:l1",
+                "C102:l2"
+            ],
             "quizAttempts": [],
             "progresses": [{
-                "percentage": 50,
+                "percentage": 100,
                 "courseId": "C102"
             }],
             "name": "s",

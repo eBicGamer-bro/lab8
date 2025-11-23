@@ -10,6 +10,112 @@
     "instructorId": "i1",
     "lessons": [
         {
+            "quiz": {
+                "maxAttempts": 2,
+                "questions": [
+                    {
+                        "options": [
+                            "yes",
+                            "probably yes",
+                            "ofc yes",
+                            "YES"
+                        ],
+                        "text": "Is tharwat gay",
+                        "correctIndex": 3
+                    },
+                    {
+                        "options": [
+                            "s",
+                            "s",
+                            "s",
+                            "s"
+                        ],
+                        "text": "s",
+                        "correctIndex": 3
+                    },
+                    {
+                        "options": [
+                            "s",
+                            "s",
+                            "s",
+                            "s"
+                        ],
+                        "text": "s",
+                        "correctIndex": 3
+                    },
+                    {
+                        "options": [
+                            "s",
+                            "s",
+                            "s",
+                            "s"
+                        ],
+                        "text": "s",
+                        "correctIndex": 3
+                    },
+                    {
+                        "options": [
+                            "s",
+                            "s",
+                            "s",
+                            "s"
+                        ],
+                        "text": "s",
+                        "correctIndex": 3
+                    },
+                    {
+                        "options": [
+                            "s",
+                            "s",
+                            "s",
+                            "s"
+                        ],
+                        "text": "s",
+                        "correctIndex": 3
+                    },
+                    {
+                        "options": [
+                            "s",
+                            "s",
+                            "ss",
+                            "s"
+                        ],
+                        "text": "s",
+                        "correctIndex": 3
+                    },
+                    {
+                        "options": [
+                            "s",
+                            "s",
+                            "s",
+                            "ss"
+                        ],
+                        "text": "s",
+                        "correctIndex": 3
+                    },
+                    {
+                        "options": [
+                            "s",
+                            "s",
+                            "s",
+                            "s"
+                        ],
+                        "text": "s",
+                        "correctIndex": 3
+                    },
+                    {
+                        "options": [
+                            "s",
+                            "s",
+                            "s",
+                            "s"
+                        ],
+                        "text": "s",
+                        "correctIndex": 3
+                    }
+                ],
+                "timeLimitMillis": 1800000
+            },
             "optionalResources": [],
             "id": "l1",
             "title": "ss",
