@@ -122,7 +122,11 @@ public class LessonDashboard extends JFrame {
 
             Lesson lesson = lessons.get(idx);
 
-            // retry limit = 1
+            if (lesson.getQuiz() == null) {
+                JOptionPane.showMessageDialog(this, "This lesson does not have a quiz.");
+                return;
+            }
+
             int attempts = student.countAttemptsFor(course.getId(), lesson.getId());
             if (attempts >= 1) {
                 JOptionPane.showMessageDialog(this,
@@ -132,7 +136,6 @@ public class LessonDashboard extends JFrame {
                 return;
             }
 
-            // open quiz
             new QuizFrame(courseDb, db, course, lesson, student).setVisible(true);
         });
 
@@ -145,6 +148,26 @@ public class LessonDashboard extends JFrame {
             }
 
             Lesson lesson = lessons.get(idx);
+
+            if (lesson.getQuiz() != null) {
+                boolean passed = false;
+                for (QuizAttempt qa : student.getQuizAttempts()) {
+                    if (qa.getCourseId().equals(course.getId()) &&
+                            qa.getLessonId().equals(lesson.getId()) &&
+                            qa.isPassed()) {
+                        passed = true;
+                        break;
+                    }
+                }
+
+                if (!passed) {
+                    JOptionPane.showMessageDialog(this,
+                            "You must pass the quiz before marking this lesson as completed.",
+                            "Lesson Incomplete",
+                            JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+            }
 
             student.markLessonCompleted(course.getId(), lesson.getId());
             student.updateCourseProgress(course);
@@ -169,9 +192,25 @@ public class LessonDashboard extends JFrame {
     }
 
     private void updateProgressBar() {
+        student.updateCourseProgress(course);
+
         for (Student.Progress p : student.getProgresses()) {
             if (p.getCourse().getId().equals(course.getId())) {
-                progressBar.setValue((int) p.getPercentage());
+                int percent = (int) p.getPercentage();
+                progressBar.setValue(percent);
+
+                // NEW: Check for Course Completion (Certificate Generation)
+                if (percent == 100) {
+                    if (!student.hasCertificateForCourse(course.getId())) {
+                        Certificate cert = new Certificate(student.getId(), course.getId(), course.getName());
+                        student.addCertificate(cert);
+                        db.save();
+                        JOptionPane.showMessageDialog(this,
+                                "Congratulations! You have completed " + course.getName() + ".\n" +
+                                        "A Certificate has been generated. Check your dashboard.",
+                                "Course Completed", JOptionPane.INFORMATION_MESSAGE);
+                    }
+                }
                 return;
             }
         }

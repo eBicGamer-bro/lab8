@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class InstructorInsightsDialog extends JDialog {
     private Course course;
@@ -11,9 +12,29 @@ public class InstructorInsightsDialog extends JDialog {
         super(owner, "Insights — " + course.getName(), ModalityType.APPLICATION_MODAL);
         this.course = course;
         this.peopleDb = peopleDb;
+
+        // Fix: Sync student stubs with full data so analytics work (Part 2 Requirement)
+        syncCourseStudents();
+
         setSize(900, 560);
         setLocationRelativeTo(owner);
         init();
+    }
+
+    private void syncCourseStudents() {
+        List<Student> realStudents = new ArrayList<>();
+        for (Student stub : course.getStudents()) {
+            Student real = peopleDb.findStudentById(stub.getId());
+            if (real != null) {
+                realStudents.add(real);
+            } else {
+                realStudents.add(stub);
+            }
+        }
+        course.getStudents().clear();
+        for (Student s : realStudents) {
+            course.addStudent(s);
+        }
     }
 
     private void init() {
@@ -36,7 +57,7 @@ public class InstructorInsightsDialog extends JDialog {
         JPanel p = new JPanel(new BorderLayout(12, 12));
         p.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
 
-        java.util.List<Student> students = course.getStudents();
+        List<Student> students = course.getStudents();
         DefaultListModel<Student> lm = new DefaultListModel<>();
         for (Student s : students) lm.addElement(s);
 
@@ -85,7 +106,7 @@ public class InstructorInsightsDialog extends JDialog {
     }
 
     private void showStudentPerformanceChart(Student s, boolean bar) {
-        java.util.List<Lesson> lessonsWithQuiz = new ArrayList<>();
+        List<Lesson> lessonsWithQuiz = new ArrayList<>();
         for (Lesson l : course.getLessons()) if (l.getQuiz() != null) lessonsWithQuiz.add(l);
         if (lessonsWithQuiz.isEmpty()) { JOptionPane.showMessageDialog(this, "No lessons with quizzes."); return; }
 
@@ -99,6 +120,8 @@ public class InstructorInsightsDialog extends JDialog {
 
         ChartFrame cf = new ChartFrame("Performance - " + s.getName(), labels, vals, bar);
         cf.setVisible(true);
+        // Close the dialog so the chart appears in front and is accessible
+        dispose();
     }
 
     private double computeStudentScoreForLesson(Student s, Course c, Lesson l) {
@@ -118,7 +141,7 @@ public class InstructorInsightsDialog extends JDialog {
         JPanel p = new JPanel(new BorderLayout(12, 12));
         p.setBorder(BorderFactory.createEmptyBorder(12, 12, 12, 12));
 
-        java.util.List<Lesson> lessons = course.getLessons();
+        List<Lesson> lessons = course.getLessons();
         DefaultListModel<Lesson> lm = new DefaultListModel<>();
         for (Lesson l : lessons) lm.addElement(l);
 
@@ -154,10 +177,11 @@ public class InstructorInsightsDialog extends JDialog {
             double[] vals = { analytics.averageScoreLesson(course, sel) };
             ChartFrame cf = new ChartFrame("Quiz Average - " + sel.getTitle(), labels, vals, true);
             cf.setVisible(true);
+            dispose(); // Close dialog
         });
 
         showAll.addActionListener(e -> {
-            java.util.List<Lesson> targets = new ArrayList<>();
+            List<Lesson> targets = new ArrayList<>();
             for (Lesson L : lessons) if (L.getQuiz() != null) targets.add(L);
             if (targets.isEmpty()) { JOptionPane.showMessageDialog(this, "No lessons with quizzes."); return; }
             String[] labels = new String[targets.size()];
@@ -168,6 +192,7 @@ public class InstructorInsightsDialog extends JDialog {
             }
             ChartFrame cf = new ChartFrame("Quiz Averages - " + course.getName(), labels, vals, true);
             cf.setVisible(true);
+            dispose(); // Close dialog
         });
 
         p.add(left, BorderLayout.WEST);
@@ -201,6 +226,7 @@ public class InstructorInsightsDialog extends JDialog {
             double[] vals = {pct};
             ChartFrame cf = new ChartFrame("Course Completion - " + course.getName(), labels, vals, true);
             cf.setVisible(true);
+            dispose(); // Close dialog
         });
 
         showLessonCompletion.addActionListener(e -> {
@@ -211,6 +237,7 @@ public class InstructorInsightsDialog extends JDialog {
             double[] vals = { pct };
             ChartFrame cf = new ChartFrame("Lesson Completion - " + sel.getTitle(), labels, vals, true);
             cf.setVisible(true);
+            dispose(); // Close dialog
         });
 
         p.add(left, BorderLayout.WEST);

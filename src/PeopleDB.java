@@ -104,6 +104,19 @@ public class PeopleDB {
                 }
                 so.put("quizAttempts", attempts);
 
+                // NEW: Save Certificates
+                JSONArray certs = new JSONArray();
+                for (Certificate c : s.getCertificates()) {
+                    JSONObject co = new JSONObject();
+                    co.put("certificateId", c.getCertificateId());
+                    co.put("studentId", c.getStudentId());
+                    co.put("courseId", c.getCourseId());
+                    co.put("courseName", c.getCourseName());
+                    co.put("issueDate", c.getIssueDate());
+                    certs.put(co);
+                }
+                so.put("certificates", certs);
+
                 studentsArr.put(so);
             }
 
@@ -192,6 +205,24 @@ public class PeopleDB {
                             list.add(qa);
                         }
                         st.setQuizAttempts(list);
+                    }
+
+                    // NEW: Load Certificates
+                    JSONArray certArr = s.optJSONArray("certificates");
+                    if (certArr != null) {
+                        ArrayList<Certificate> cList = new ArrayList<>();
+                        for (int ci = 0; ci < certArr.length(); ci++) {
+                            JSONObject co = certArr.getJSONObject(ci);
+                            Certificate cert = new Certificate(
+                                    co.optString("certificateId"),
+                                    co.optString("studentId"),
+                                    co.optString("courseId"),
+                                    co.optString("courseName"),
+                                    co.optLong("issueDate")
+                            );
+                            cList.add(cert);
+                        }
+                        st.setCertificates(cList);
                     }
 
                     JSONArray pArr = s.optJSONArray("progresses");

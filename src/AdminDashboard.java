@@ -7,6 +7,7 @@ public class AdminDashboard extends JFrame {
     private JTable pendingCoursesTable;
     private JButton approveButton;
     private JButton rejectButton;
+    private JButton backButton; // New Button
     private DefaultTableModel tableModel;
     private CourseLessonDB db;
     private Admin admin;
@@ -36,12 +37,17 @@ public class AdminDashboard extends JFrame {
 
         // Buttons
         approveButton = new JButton("Approve");
-        approveButton.setBounds(200, 300, 150, 30);
+        approveButton.setBounds(150, 300, 150, 30); // Adjusted position
         panel1.add(approveButton);
 
         rejectButton = new JButton("Reject");
-        rejectButton.setBounds(400, 300, 150, 30);
+        rejectButton.setBounds(320, 300, 150, 30); // Adjusted position
         panel1.add(rejectButton);
+
+        // NEW: Back Button
+        backButton = new JButton("Back");
+        backButton.setBounds(490, 300, 150, 30);
+        panel1.add(backButton);
 
         loadPendingCourses();
 
@@ -71,6 +77,12 @@ public class AdminDashboard extends JFrame {
             db.updateCourse(selected);// updates course in memory
             JOptionPane.showMessageDialog(panel1, "Course " + selected.getName() + " rejected.");
             loadPendingCourses();
+        });
+
+        // NEW: Back button action
+        backButton.addActionListener(e -> {
+            dispose();
+            new Login(); // Return to login screen
         });
 
         setVisible(true);

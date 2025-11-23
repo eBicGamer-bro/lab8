@@ -118,6 +118,7 @@ public class InstructorDashboardFrame extends JFrame {
         if (c == null) { JOptionPane.showMessageDialog(this, "Select a course first."); return; }
         InstructorInsightsDialog dlg = new InstructorInsightsDialog(this, c, peopleDb);
         dlg.setVisible(true);
+
     }
 
     private void onLogout() {

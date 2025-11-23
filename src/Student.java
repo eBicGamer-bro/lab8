@@ -6,6 +6,8 @@ public class Student extends User {
     private ArrayList<Progress> progresses;
     private ArrayList<QuizAttempt> quizAttempts;
     private ArrayList<String> completedLessons;
+    // NEW: Certificates list
+    private ArrayList<Certificate> certificates;
 
     public Student(String id, String name, String email, String hashPassword) {
         super(id, name, email, hashPassword);
@@ -13,18 +15,36 @@ public class Student extends User {
         progresses = new ArrayList<>();
         quizAttempts = new ArrayList<>();
         completedLessons = new ArrayList<>();
+        certificates = new ArrayList<>();
     }
 
     public ArrayList<Course> getEnrolledCourses() { return enrolledCourses; }
     public ArrayList<Progress> getProgresses() { return progresses; }
     public ArrayList<QuizAttempt> getQuizAttempts() { return quizAttempts; }
     public ArrayList<String> getCompletedLessons() { return completedLessons; }
+    // NEW: Getter for certificates
+    public ArrayList<Certificate> getCertificates() { return certificates; }
 
     public void setProgresses(ArrayList<Progress> progresses) {this.progresses = progresses;}
     public void setQuizAttempts(ArrayList<QuizAttempt> a) { quizAttempts = a; }
     public void setCompletedLessons(ArrayList<String> a) { completedLessons = a; }
+    // NEW: Setter for certificates
+    public void setCertificates(ArrayList<Certificate> c) { this.certificates = c; }
 
     public void addQuizAttempt(QuizAttempt a) { quizAttempts.add(a); }
+
+    // NEW: Add a certificate
+    public void addCertificate(Certificate c) {
+        certificates.add(c);
+    }
+
+    // NEW: Check if student already has a certificate for this course
+    public boolean hasCertificateForCourse(String courseId) {
+        for (Certificate c : certificates) {
+            if (c.getCourseId().equals(courseId)) return true;
+        }
+        return false;
+    }
 
     public int countAttemptsFor(String courseId, String lessonId) {
         int c = 0;
@@ -78,6 +98,7 @@ public class Student extends User {
     public void showInfo() {
         System.out.println("Student: " + name);
     }
+
     public void updateCourseProgress(Course course) {
         int total = course.getLessons().size();
         int completed = 0;
@@ -91,5 +112,4 @@ public class Student extends User {
         double percentage = (total == 0) ? 0 : ((double) completed / (double) total) * 100.0;
         updateProgress(course.getId(), percentage);
     }
-
 }
