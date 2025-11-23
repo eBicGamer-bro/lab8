@@ -27,25 +27,6 @@ public class PeopleDB {
         return null;
     }
 
-    public Student findStudentById(String id) {
-        for (Student s : students) {
-            if (s.getId().equals(id)) return s;
-        }
-        return null;
-    }
-
-    public void updateStudent(Student updated) {
-        for (int i = 0; i < students.size(); i++) {
-            if (students.get(i).getId().equals(updated.getId())) {
-                students.set(i, updated);
-                save();
-                return;
-            }
-        }
-        students.add(updated);
-        save();
-    }
-
     public void addStudent(Student s) {
         students.add(s);
         save();
@@ -53,23 +34,6 @@ public class PeopleDB {
 
     public void addInstructor(Instructor i) {
         instructors.add(i);
-        save();
-    }
-
-    public void addCourse(Course c) {
-        courses.add(c);
-        save();
-    }
-
-    public void updateCourse(Course updated) {
-        for (int i = 0; i < courses.size(); i++) {
-            if (courses.get(i).getId().equals(updated.getId())) {
-                courses.set(i, updated);
-                save();
-                return;
-            }
-        }
-        courses.add(updated);
         save();
     }
 
