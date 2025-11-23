@@ -14,13 +14,13 @@ public class LessonDashboard extends JFrame {
     private JScrollPane listScrollPane;
     private JScrollPane contentScrollPane;
     private JSplitPane splitPane;
-
     private Course course;
     private Student student;
     private JFrame parentFrame;
     private ArrayList<Lesson> lessons;
 
-    public LessonDashboard(Course course, Student student, JFrame parentFrame) {
+
+    public LessonDashboard(Course course, Student student, JFrame parentFrame,PeopleDB db) {
         this.course = course;
         this.student = student;
         this.parentFrame = parentFrame;
@@ -104,10 +104,10 @@ public class LessonDashboard extends JFrame {
             Lesson lesson = lessons.get(idx);
             student.markLessonCompleted(course.getId(), lesson.getId());
 
-            updateProgress();
+            student.updateCourseProgress(course);
             removeLessonFromList(idx);
             updateProgressBar();
-
+            db.save();
             JOptionPane.showMessageDialog(this, "Lesson completed and removed!");
         });
 
@@ -115,20 +115,6 @@ public class LessonDashboard extends JFrame {
             parentFrame.setVisible(true);
             dispose();
         });
-    }
-    
-    private void updateProgress() {
-        int total = course.getLessons().size();
-        int completed = 0;
-
-        for (Lesson l : course.getLessons()) {
-            if (student.hasCompletedLesson(course.getId(), l.getId())) {
-                completed++;
-            }
-        }
-
-        double percentage = (total == 0) ? 0 : ((double) completed / (double) total) * 100.0;
-        student.updateProgress(course.getId(), percentage);
     }
 
     private void removeLessonFromList(int index) {

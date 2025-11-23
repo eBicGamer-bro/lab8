@@ -20,6 +20,7 @@ public class Student extends User {
     public ArrayList<QuizAttempt> getQuizAttempts() { return quizAttempts; }
     public ArrayList<String> getCompletedLessons() { return completedLessons; }
 
+    public void setProgresses(ArrayList<Progress> progresses) {this.progresses = progresses;}
     public void setQuizAttempts(ArrayList<QuizAttempt> a) { quizAttempts = a; }
     public void setCompletedLessons(ArrayList<String> a) { completedLessons = a; }
 
@@ -77,4 +78,18 @@ public class Student extends User {
     public void showInfo() {
         System.out.println("Student: " + name);
     }
+    public void updateCourseProgress(Course course) {
+        int total = course.getLessons().size();
+        int completed = 0;
+
+        for (Lesson l : course.getLessons()) {
+            if (hasCompletedLesson(course.getId(), l.getId())) {
+                completed++;
+            }
+        }
+
+        double percentage = (total == 0) ? 0 : ((double) completed / (double) total) * 100.0;
+        updateProgress(course.getId(), percentage);
+    }
+
 }

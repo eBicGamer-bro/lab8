@@ -1,56 +1,45 @@
 {
+    "courses": [{
+        "name": "C102",
+        "description": "",
+        "students": [],
+        "id": "C102",
+        "instructorId": "",
+        "lessons": []
+    }],
     "students": [
         {
+            "completedLessons": ["C102:l1"],
             "quizAttempts": [],
-            "completedLessons": [],
-            "name": "tharwat",
-            "hashPassword": "2934118e292b0506a41e364633d2b2323e3341279b77691d52d0e224cc819d68",
-            "id": "S555",
-            "email": "tharwat@gmail.com"
-        },
-        {
-            "quizAttempts": [],
-            "completedLessons": [],
-            "name": "ssss",
-            "hashPassword": "7eaed952052938979a37f16543d6de608e3180bcda54c5b6cf595998018e1e08",
-            "id": "S69",
-            "email": "sss@gmail.com"
-        },
-        {
-            "quizAttempts": [],
-            "completedLessons": [],
-            "name": "fares",
-            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-            "id": "S1",
-            "email": "f@g.c"
-        },
-        {
-            "quizAttempts": [],
-            "completedLessons": [],
-            "name": "f",
+            "progresses": [{
+                "percentage": 50,
+                "courseId": "C102"
+            }],
+            "name": "s",
             "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-            "id": "S123",
-            "email": "f@g.c"
+            "id": "S1",
+            "email": "s@g.c"
+        },
+        {
+            "completedLessons": [
+                "C102:l2",
+                "C102:l1"
+            ],
+            "quizAttempts": [],
+            "progresses": [{
+                "percentage": 100,
+                "courseId": "C102"
+            }],
+            "name": "s",
+            "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+            "id": "S2",
+            "email": "s@g.c"
         }
     ],
-    "instructors": [
-        {
-            "name": "insta",
-            "hashPassword": "7eaed952052938979a37f16543d6de608e3180bcda54c5b6cf595998018e1e08",
-            "id": "I555",
-            "email": "ssss@gmail.com"
-        },
-        {
-            "name": "f",
-            "hashPassword": "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3",
-            "id": "I1",
-            "email": "f@g.c"
-        },
-        {
-            "name": "df",
-            "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-            "id": "I12",
-            "email": "f@g.c"
-        }
-    ]
+    "instructors": [{
+        "name": "s",
+        "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "id": "I1",
+        "email": "s@g.c"
+    }]
 }

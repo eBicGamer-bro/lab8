@@ -1,34 +1,25 @@
-{
-    "courses": [
+{"courses": [{
+    "approvalStatus": "APPROVED",
+    "name": "C++",
+    "description": "sssss",
+    "students": [
+        "S1",
+        "S2"
+    ],
+    "id": "C102",
+    "instructorId": "i1",
+    "lessons": [
         {
-            "approvalStatus": "APPROVED",
-            "name": "d",
-            "description": "d",
-            "students": [
-                "S1",
-                "S123"
-            ],
-            "id": "c3",
-            "instructorId": "i12",
-            "lessons": [{
-                "optionalResources": [],
-                "id": "l7",
-                "title": "x",
-                "content": "x"
-            }]
+            "optionalResources": [],
+            "id": "l1",
+            "title": "ss",
+            "content": "sss"
         },
         {
-            "approvalStatus": "APPROVED",
-            "name": "f",
-            "description": "f",
-            "students": [
-                "S1",
-                "S123"
-            ],
-            "id": "c1",
-            "instructorId": "i12",
-            "lessons": []
+            "optionalResources": [],
+            "id": "l2",
+            "title": "sss",
+            "content": "sssss"
         }
-    ],
-    "lessons": []
-}
+    ]
+}]}
