@@ -1,71 +1,95 @@
 import java.util.ArrayList;
 
 public class Student extends User {
+
     private ArrayList<Course> enrolledCourses;
-    private ArrayList<Progress> progresses; // list of course progress
+    private ArrayList<Progress> progresses;
+    private ArrayList<QuizAttempt> quizAttempts;
+    private ArrayList<String> completedLessons;
 
     public Student(String id, String name, String email, String hashPassword) {
         super(id, name, email, hashPassword);
         enrolledCourses = new ArrayList<>();
         progresses = new ArrayList<>();
+        quizAttempts = new ArrayList<>();
+        completedLessons = new ArrayList<>();
     }
 
-    public void enrollCourse(Course course) {
-        enrolledCourses.add(course);
-        course.addStudent(this);
-        progresses.add(new Progress(course, 0.0)); // start with 0% progress
+    public ArrayList<Course> getEnrolledCourses() { return enrolledCourses; }
+    public ArrayList<Progress> getProgresses() { return progresses; }
+    public ArrayList<QuizAttempt> getQuizAttempts() { return quizAttempts; }
+    public ArrayList<String> getCompletedLessons() { return completedLessons; }
+
+    public void setProgresses(ArrayList<Progress> progresses) {this.progresses = progresses;}
+    public void setQuizAttempts(ArrayList<QuizAttempt> a) { quizAttempts = a; }
+    public void setCompletedLessons(ArrayList<String> a) { completedLessons = a; }
+
+    public void addQuizAttempt(QuizAttempt a) { quizAttempts.add(a); }
+
+    public int countAttemptsFor(String courseId, String lessonId) {
+        int c = 0;
+        for (QuizAttempt a : quizAttempts) {
+            if (a.getCourseId().equals(courseId) && a.getLessonId().equals(lessonId))
+                c++;
+        }
+        return c;
     }
 
-    public void updateProgress(String courseId, double value) {
+    public void enrollCourse(Course c) {
+        enrolledCourses.add(c);
+        c.addStudent(this);
+        progresses.add(new Progress(c, 0.0));
+    }
+
+    public void updateProgress(String cid, double val) {
         for (Progress p : progresses) {
-            if (p.getCourse().getId().equals(courseId)) {
-                p.setPercentage(value);
+            if (p.getCourse().getId().equals(cid)) {
+                p.setPercentage(val);
                 return;
             }
         }
-        System.out.println("Not enrolled in this course.");
     }
 
-    public void viewProgress() {
-        System.out.println("Progress for " + name + ":");
-        for (Progress p : progresses) {
-            System.out.println("- " + p.getCourse().getName() + ": " + p.getPercentage() + "%");
-        }
+    public void markLessonCompleted(String courseId, String lessonId) {
+        String key = courseId + ":" + lessonId;
+        if (!completedLessons.contains(key))
+            completedLessons.add(key);
     }
 
-    @Override
-    public void showInfo() {
-        System.out.println("Student ID: " + id + ", Name: " + name + ", Email: " + email);
+    public boolean hasCompletedLesson(String courseId, String lessonId) {
+        return completedLessons.contains(courseId + ":" + lessonId);
     }
 
-    // Inner class for course progress
     public static class Progress {
         private Course course;
         private double percentage;
 
-        public Progress(Course course, double percentage) {
-            this.course = course;
-            this.percentage = percentage;
+        public Progress(Course c, double p) {
+            course = c;
+            percentage = p;
         }
 
         public Course getCourse() { return course; }
         public double getPercentage() { return percentage; }
-        public void setPercentage(double percentage) { this.percentage = percentage; }
+        public void setPercentage(double p) { percentage = p; }
     }
 
-    public ArrayList<Course> getEnrolledCourses() {
-        return enrolledCourses;
+    @Override
+    public void showInfo() {
+        System.out.println("Student: " + name);
+    }
+    public void updateCourseProgress(Course course) {
+        int total = course.getLessons().size();
+        int completed = 0;
+
+        for (Lesson l : course.getLessons()) {
+            if (hasCompletedLesson(course.getId(), l.getId())) {
+                completed++;
+            }
+        }
+
+        double percentage = (total == 0) ? 0 : ((double) completed / (double) total) * 100.0;
+        updateProgress(course.getId(), percentage);
     }
 
-    public void setEnrolledCourses(ArrayList<Course> enrolledCourses) {
-        this.enrolledCourses = enrolledCourses;
-    }
-
-    public ArrayList<Progress> getProgresses() {
-        return progresses;
-    }
-
-    public void setProgresses(ArrayList<Progress> progresses) {
-        this.progresses = progresses;
-    }
 }

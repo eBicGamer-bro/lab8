@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class LessonDashboard extends JFrame {
@@ -16,17 +14,23 @@ public class LessonDashboard extends JFrame {
     private JScrollPane listScrollPane;
     private JScrollPane contentScrollPane;
     private JSplitPane splitPane;
-
     private Course course;
     private Student student;
     private JFrame parentFrame;
     private ArrayList<Lesson> lessons;
 
-    public LessonDashboard(Course course, Student student, JFrame parentFrame) {
+
+    public LessonDashboard(Course course, Student student, JFrame parentFrame,PeopleDB db) {
         this.course = course;
         this.student = student;
         this.parentFrame = parentFrame;
-        this.lessons = new ArrayList<>(course.getLessons());
+
+        lessons = new ArrayList<>();
+        for (Lesson l : course.getLessons()) {
+            if (!student.hasCompletedLesson(course.getId(), l.getId())) {
+                lessons.add(l);
+            }
+        }
 
         setTitle("Course View: " + course.getName());
         setSize(900, 600);
@@ -90,37 +94,21 @@ public class LessonDashboard extends JFrame {
             }
         });
 
-        markCompletedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int idx = lessonList.getSelectedIndex();
-                if (idx == -1) {
-                    JOptionPane.showMessageDialog(LessonDashboard.this,
-                            "Please select a lesson first.");
-                    return;
-                }
-
-                if (lessons.isEmpty()) return;
-
-                double increment = 100.0 / lessons.size();
-
-                double currentP = 0;
-                for (Student.Progress p : student.getProgresses()) {
-                    if (p.getCourse().getId().equals(course.getId())) {
-                        currentP = p.getPercentage();
-                        break;
-                    }
-                }
-
-                double newProgress = Math.min(100.0, currentP + increment);
-                student.updateProgress(course.getId(), newProgress);
-
-                removeLessonFromList(idx);
-
-                updateProgressBar();
-                JOptionPane.showMessageDialog(LessonDashboard.this,
-                        "Lesson completed and removed!");
+        markCompletedButton.addActionListener(e -> {
+            int idx = lessonList.getSelectedIndex();
+            if (idx == -1) {
+                JOptionPane.showMessageDialog(this, "Please select a lesson first.");
+                return;
             }
+
+            Lesson lesson = lessons.get(idx);
+            student.markLessonCompleted(course.getId(), lesson.getId());
+
+            student.updateCourseProgress(course);
+            removeLessonFromList(idx);
+            updateProgressBar();
+            db.save();
+            JOptionPane.showMessageDialog(this, "Lesson completed and removed!");
         });
 
         backButton.addActionListener(e -> {
@@ -139,7 +127,7 @@ public class LessonDashboard extends JFrame {
         for (Student.Progress p : student.getProgresses()) {
             if (p.getCourse().getId().equals(course.getId())) {
                 progressBar.setValue((int) p.getPercentage());
-                break;
+                return;
             }
         }
     }

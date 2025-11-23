@@ -160,13 +160,14 @@ public class ValidationAndHashing {
         }
         return false;
     }
-    public boolean lessonIdExist(String id) {
-        ArrayList<Lesson> lessons = db.getLessons();
-        for (int i = 0; i < lessons.size(); i++) {
-            if (lessons.get(i).getId().equalsIgnoreCase(id))
+    public boolean lessonIdExist(String id, Course course) {
+        for (Lesson l : course.getLessons()) {
+            if (l.getId().equalsIgnoreCase(id)) {
                 return true;
+            }
         }
         return false;
     }
+
 
 }

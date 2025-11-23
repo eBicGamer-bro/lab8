@@ -9,6 +9,9 @@ public class Course {
     private ArrayList<Lesson> lessons;
     private ArrayList<Student> students;
 
+    // NEW: Approval status for Admin workflow
+    private ApprovalStatus approvalStatus = ApprovalStatus.PENDING;
+
     public Course(String id, String name, String instructorId, String description) {
         this.id = id;
         this.name = name;
@@ -52,6 +55,16 @@ public class Course {
         return ids;
     }
 
+    // ===== Approval Workflow =====
+    public ApprovalStatus getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(ApprovalStatus approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
+    // ============================
+
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
     public String getCourseId() { return id; }
@@ -69,6 +82,13 @@ public class Course {
 
     @Override
     public String toString() {
-        return name + " (" + id + ")";
+        return name + " (" + id + ") [" + approvalStatus + "]";
+    }
+
+    // ===== Nested enum for approval status =====
+    public enum ApprovalStatus {
+        PENDING,
+        APPROVED,
+        REJECTED
     }
 }
