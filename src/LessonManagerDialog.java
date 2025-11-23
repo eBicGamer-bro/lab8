@@ -50,7 +50,7 @@ public class LessonManagerDialog extends JDialog {
     }
 
     private void onAdd() {
-        LessonFormDialog dlg = new LessonFormDialog(this, "Add Lesson", null);
+        LessonFormDialog dlg = new LessonFormDialog(this, "Add Lesson", null,course);
         dlg.setVisible(true);
 
         if (dlg.isSaved()) {
@@ -73,7 +73,7 @@ public class LessonManagerDialog extends JDialog {
             return;
         }
 
-        LessonFormDialog dlg = new LessonFormDialog(this, "Edit Lesson", selected);
+        LessonFormDialog dlg = new LessonFormDialog(this, "Edit Lesson", selected,course);
         dlg.setVisible(true);
 
         if (dlg.isSaved()) {
