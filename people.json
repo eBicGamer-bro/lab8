@@ -1,177 +1,31 @@
 {
-    "courses": [
-        {
-            "name": "C102",
-            "description": "",
-            "students": [],
-            "id": "C102",
-            "instructorId": "",
-            "lessons": []
-        },
-        {
-            "name": "C333",
-            "description": "",
-            "students": [],
-            "id": "C333",
-            "instructorId": "",
-            "lessons": []
-        },
-        {
-            "name": "c1",
-            "description": "",
-            "students": [],
-            "id": "c1",
-            "instructorId": "",
-            "lessons": []
-        }
-    ],
-    "students": [
-        {
-            "completedLessons": [
-                "C102:l1",
-                "C102:l2",
-                "C333:l1",
-                "c1:l7",
-                "c1:l1",
-                "c1:l2"
-            ],
-            "quizAttempts": [
-                {
-                    "attemptNumber": 1,
-                    "studentId": "S1",
-                    "score": 2,
-                    "lessonId": "l1",
-                    "passed": false,
-                    "courseId": "c1",
-                    "timestamp": 1763917989849
-                },
-                {
-                    "attemptNumber": 1,
-                    "studentId": "S1",
-                    "score": 0,
-                    "lessonId": "l2",
-                    "passed": false,
-                    "courseId": "c1",
-                    "timestamp": 1763918213673
-                },
-                {
-                    "attemptNumber": 1,
-                    "studentId": "S1",
-                    "score": 10,
-                    "lessonId": "l7",
-                    "passed": true,
-                    "courseId": "c1",
-                    "timestamp": 1763919476029
-                }
-            ],
-            "progresses": [
-                {
-                    "percentage": 100,
-                    "courseId": "C102"
-                },
-                {
-                    "percentage": 100,
-                    "courseId": "C333"
-                },
-                {
-                    "percentage": 100,
-                    "courseId": "c1"
-                }
-            ],
-            "name": "s",
-            "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-            "id": "S1",
-            "email": "s@g.c"
-        },
-        {
-            "completedLessons": [
-                "C102:l2",
-                "C102:l1",
-                "C333:l1"
-            ],
-            "quizAttempts": [
-                {
-                    "attemptNumber": 1,
-                    "studentId": "S2",
-                    "score": 0,
-                    "lessonId": "l1",
-                    "passed": false,
-                    "courseId": "C333",
-                    "timestamp": 1763917027663
-                },
-                {
-                    "attemptNumber": 1,
-                    "studentId": "S2",
-                    "score": 0,
-                    "lessonId": "l2",
-                    "passed": false,
-                    "courseId": "c1",
-                    "timestamp": 1763918410892
-                }
-            ],
-            "progresses": [
-                {
-                    "percentage": 100,
-                    "courseId": "C102"
-                },
-                {
-                    "percentage": 100,
-                    "courseId": "C333"
-                },
-                {
-                    "percentage": 0,
-                    "courseId": "c1"
-                }
-            ],
-            "name": "s",
-            "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-            "id": "S2",
-            "email": "s@g.c"
-        },
-        {
-            "completedLessons": [
-                "C102:l2",
-                "C102:l1",
-                "C333:l1"
-            ],
-            "quizAttempts": [
-                {
-                    "attemptNumber": 1,
-                    "studentId": "S3",
-                    "score": 0,
-                    "lessonId": "l1",
-                    "passed": false,
-                    "courseId": "C102",
-                    "timestamp": 1763917103565
-                },
-                {
-                    "attemptNumber": 1,
-                    "studentId": "S3",
-                    "score": 0,
-                    "lessonId": "l1",
-                    "passed": false,
-                    "courseId": "C333",
-                    "timestamp": 1763917349160
-                }
-            ],
-            "progresses": [
-                {
-                    "percentage": 100,
-                    "courseId": "C102"
-                },
-                {
-                    "percentage": 100,
-                    "courseId": "C333"
-                }
-            ],
-            "name": "s",
-            "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-            "id": "S3",
-            "email": "s@g.c"
-        }
-    ],
-    "instructors": [{
+    "students": [{
+        "completedLessons": ["c1:l1"],
+        "quizAttempts": [{
+            "attemptNumber": 1,
+            "studentId": "S1",
+            "score": 9,
+            "lessonId": "l1",
+            "passed": true,
+            "courseId": "c1",
+            "timestamp": 1763922239516
+        }],
+        "progresses": [{
+            "percentage": 100,
+            "courseId": "c1"
+        }],
         "name": "s",
+        "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "id": "S1",
+        "email": "s@g.c"
+    }],
+    "admins": [{
+        "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+        "name": "s",
+        "id": "A1"
+    }],
+    "instructors": [{
+        "name": "d",
         "hashPassword": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
         "id": "I1",
         "email": "s@g.c"

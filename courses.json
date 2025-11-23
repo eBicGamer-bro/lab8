@@ -1,349 +1,120 @@
 {"courses": [{
     "approvalStatus": "APPROVED",
-    "name": "c++",
-    "description": "ssss",
-    "students": [
-        "S1",
-        "S2"
-    ],
+    "name": "f",
+    "description": "ss",
+    "students": ["S1"],
     "id": "c1",
     "instructorId": "i1",
-    "lessons": [
-        {
-            "quiz": {
-                "maxAttempts": 1,
-                "questions": [
-                    {
-                        "options": [
-                            "1",
-                            "1",
-                            "1",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    },
-                    {
-                        "options": [
-                            "1",
-                            "1",
-                            "1",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    },
-                    {
-                        "options": [
-                            "1",
-                            "1",
-                            "1",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    },
-                    {
-                        "options": [
-                            "1",
-                            "1",
-                            "1",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    },
-                    {
-                        "options": [
-                            "1",
-                            "1",
-                            "1",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    },
-                    {
-                        "options": [
-                            "1",
-                            "1",
-                            "1",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    },
-                    {
-                        "options": [
-                            "1",
-                            "1",
-                            "11",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    },
-                    {
-                        "options": [
-                            "1",
-                            "11",
-                            "11",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    },
-                    {
-                        "options": [
-                            "1",
-                            "1",
-                            "1",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    },
-                    {
-                        "options": [
-                            "1",
-                            "1",
-                            "11",
-                            "1"
-                        ],
-                        "text": "1",
-                        "correctIndex": 1
-                    }
-                ],
-                "timeLimitMillis": 1800000
-            },
-            "optionalResources": [],
-            "id": "l1",
-            "title": "sss",
-            "content": "sss"
+    "lessons": [{
+        "quiz": {
+            "maxAttempts": 1,
+            "questions": [
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                },
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                },
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                },
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                },
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                },
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                },
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                },
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                },
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                },
+                {
+                    "options": [
+                        "s",
+                        "s",
+                        "s",
+                        "s"
+                    ],
+                    "text": "s",
+                    "correctIndex": 0
+                }
+            ],
+            "timeLimitMillis": 1800000
         },
-        {
-            "quiz": {
-                "maxAttempts": 1,
-                "questions": [
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    },
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    },
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    },
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    },
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    },
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    },
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    },
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    },
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    },
-                    {
-                        "options": [
-                            "s",
-                            "s",
-                            "s",
-                            "s"
-                        ],
-                        "text": "s",
-                        "correctIndex": 2
-                    }
-                ],
-                "timeLimitMillis": 1800000
-            },
-            "optionalResources": [],
-            "id": "l2",
-            "title": "ws",
-            "content": "s"
-        },
-        {
-            "quiz": {
-                "maxAttempts": 1,
-                "questions": [
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    },
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    },
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    },
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    },
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    },
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    },
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    },
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    },
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    },
-                    {
-                        "options": [
-                            "ssss",
-                            "sssssss",
-                            "ssssss",
-                            "ssssss"
-                        ],
-                        "text": "sss",
-                        "correctIndex": 0
-                    }
-                ],
-                "timeLimitMillis": 1800000
-            },
-            "optionalResources": [],
-            "id": "l7",
-            "title": "test3",
-            "content": "asfasFSF"
-        }
-    ]
+        "optionalResources": [],
+        "id": "l1",
+        "title": "sss",
+        "content": "sss"
+    }]
 }]}

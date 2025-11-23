@@ -1,7 +1,5 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class AdminDashboard extends JFrame {
@@ -9,17 +7,21 @@ public class AdminDashboard extends JFrame {
     private JTable pendingCoursesTable;
     private JButton approveButton;
     private JButton rejectButton;
-
-    private CourseLessonDB courseDB;
-    private ArrayList<Course> pendingCourses;
     private DefaultTableModel tableModel;
+    private CourseLessonDB db;
+    private Admin admin;
+    private ArrayList<Course> courses;
+    private ArrayList<Course> pendingCourses;
 
-    public AdminDashboard() {
-        // GUI setup
+    public AdminDashboard(Admin admin, CourseLessonDB db) {
+        this.admin = admin;
+        this.db = db;
+        this.courses = db.getCourses();
+
         panel1 = new JPanel();
         panel1.setLayout(null);
         setContentPane(panel1);
-        setTitle("Admin Dashboard");
+        setTitle("Admin Dashboard - " + admin.getName());
         setSize(800, 400);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -41,56 +43,50 @@ public class AdminDashboard extends JFrame {
         rejectButton.setBounds(400, 300, 150, 30);
         panel1.add(rejectButton);
 
-        // Load courses from DB
-        courseDB = new CourseLessonDB();
-        pendingCourses = new ArrayList<>();
         loadPendingCourses();
 
-        // Approve Action
-        approveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = pendingCoursesTable.getSelectedRow();
-                if (selectedRow == -1) {
-                    JOptionPane.showMessageDialog(panel1, "Select a course to approve.");
-                    return;
-                }
-                Course selected = pendingCourses.get(selectedRow);
-                selected.setApprovalStatus(Course.ApprovalStatus.APPROVED);
-                courseDB.updateCourse(selected); // Persist instantly
-                JOptionPane.showMessageDialog(panel1, "Course " + selected.getName() + " approved.");
-                loadPendingCourses();
+        // Approve button action
+        approveButton.addActionListener(e -> {
+            int selectedRow = pendingCoursesTable.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(panel1, "Select a course to approve.");
+                return;
             }
+            Course selected = pendingCourses.get(selectedRow);
+            admin.approveCourse(selected);  // updates course in memory
+            JOptionPane.showMessageDialog(panel1, "Course " + selected.getName() + " approved.");
+            db.updateCourse(selected);
+            loadPendingCourses();
         });
 
-        // Reject Action
-        rejectButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectedRow = pendingCoursesTable.getSelectedRow();
-                if (selectedRow == -1) {
-                    JOptionPane.showMessageDialog(panel1, "Select a course to reject.");
-                    return;
-                }
-                Course selected = pendingCourses.get(selectedRow);
-                selected.setApprovalStatus(Course.ApprovalStatus.REJECTED);
-                courseDB.updateCourse(selected); // Persist instantly
-                JOptionPane.showMessageDialog(panel1, "Course " + selected.getName() + " rejected.");
-                loadPendingCourses();
+        // Reject button action
+        rejectButton.addActionListener(e -> {
+            int selectedRow = pendingCoursesTable.getSelectedRow();
+            if (selectedRow == -1) {
+                JOptionPane.showMessageDialog(panel1, "Select a course to reject.");
+                return;
             }
+            Course selected = pendingCourses.get(selectedRow);
+            admin.rejectCourse(selected);
+            db.updateCourse(selected);// updates course in memory
+            JOptionPane.showMessageDialog(panel1, "Course " + selected.getName() + " rejected.");
+            loadPendingCourses();
         });
 
         setVisible(true);
     }
 
+    // Load pending courses from the full courses list
     private void loadPendingCourses() {
         tableModel.setRowCount(0);
-        pendingCourses.clear();
-        for (Course c : courseDB.getCourses()) {
+        pendingCourses = new ArrayList<>();
+        for (Course c : courses) {
             if (c.getApprovalStatus() == Course.ApprovalStatus.PENDING) {
                 pendingCourses.add(c);
-                tableModel.addRow(new Object[]{c.getId(), c.getName(), c.getInstructorId()});
             }
+        }
+        for (Course c : pendingCourses) {
+            tableModel.addRow(new Object[]{c.getId(), c.getName(), c.getInstructorId()});
         }
     }
 }

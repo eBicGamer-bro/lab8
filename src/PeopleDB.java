@@ -7,24 +7,34 @@ public class PeopleDB {
     private final String filename = "people.json";
     private ArrayList<Student> students;
     private ArrayList<Instructor> instructors;
-    private ArrayList<Course> courses;
+    private ArrayList<Admin> admins;
 
     public PeopleDB() {
         students = new ArrayList<>();
         instructors = new ArrayList<>();
-        courses = new ArrayList<>();
+        admins = new ArrayList<>();
         load();
     }
 
     public ArrayList<Student> getStudents() { return students; }
     public ArrayList<Instructor> getInstructors() { return instructors; }
-    public ArrayList<Course> getCourses() { return courses; }
+    public ArrayList<Admin> getAdmins() { return admins; }
 
-    public Course findCourseById(String id) {
-        for (Course c : courses) {
-            if (c.getId().equals(id)) return c;
-        }
+    public Student findStudentById(String id) {
+        for (Student s : students) if (s.getId().equals(id)) return s;
         return null;
+    }
+
+    public void updateStudent(Student updated) {
+        for (int i = 0; i < students.size(); i++) {
+            if (students.get(i).getId().equals(updated.getId())) {
+                students.set(i, updated);
+                save();
+                return;
+            }
+        }
+        students.add(updated);
+        save();
     }
 
     public void addStudent(Student s) {
@@ -37,40 +47,27 @@ public class PeopleDB {
         save();
     }
 
+    public boolean addAdmin(Admin a) {
+        for (Admin adm : admins) {
+            if (adm.getId().equalsIgnoreCase(a.getId())) return false;
+        }
+        admins.add(a);
+        save();
+        return true;
+    }
+
+    public Admin loginAdmin(String id, String password) {
+        for (Admin adm : admins) {
+            if (adm.getId().equalsIgnoreCase(id) &&
+                    adm.getPassword().equals(password))
+                return adm;
+        }
+        return null;
+    }
+
     public void save() {
         try {
             JSONObject obj = new JSONObject();
-
-            JSONArray coursesArr = new JSONArray();
-            for (Course c : courses) {
-                JSONObject co = new JSONObject();
-                co.put("id", c.getId());
-                co.put("name", c.getName());
-                co.put("instructorId", c.getInstructorId());
-                co.put("description", c.getDescription());
-
-                JSONArray lessonsArr = new JSONArray();
-                for (Lesson l : c.getLessons()) {
-                    JSONObject lo = new JSONObject();
-                    lo.put("id", l.getId());
-                    lo.put("title", l.getTitle());
-                    lo.put("content", l.getContent());
-                    String[] ress = l.getOptionalResources();
-                    JSONArray resArr = new JSONArray();
-                    if (ress != null) {
-                        for (String r : ress) resArr.put(r);
-                    }
-                    lo.put("optionalResources", resArr);
-                    lessonsArr.put(lo);
-                }
-                co.put("lessons", lessonsArr);
-
-                JSONArray studs = new JSONArray();
-                for (Student s : c.getStudents()) studs.put(s.getId());
-                co.put("students", studs);
-
-                coursesArr.put(co);
-            }
 
             JSONArray studentsArr = new JSONArray();
             for (Student s : students) {
@@ -120,13 +117,23 @@ public class PeopleDB {
                 instructorsArr.put(io);
             }
 
-            obj.put("courses", coursesArr);
+            JSONArray adminsArr = new JSONArray();
+            for (Admin a : admins) {
+                JSONObject ao = new JSONObject();
+                ao.put("id", a.getId());
+                ao.put("name", a.getName());
+                ao.put("password", a.getPassword());
+                adminsArr.put(ao);
+            }
+
             obj.put("students", studentsArr);
             obj.put("instructors", instructorsArr);
+            obj.put("admins", adminsArr);
 
             try (FileWriter writer = new FileWriter(filename)) {
                 writer.write(obj.toString(4));
             }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,47 +155,7 @@ public class PeopleDB {
 
             students.clear();
             instructors.clear();
-            courses.clear();
-
-            JSONArray cArr = obj.optJSONArray("courses");
-            if (cArr != null) {
-                for (int i = 0; i < cArr.length(); i++) {
-                    JSONObject co = cArr.getJSONObject(i);
-                    Course c = new Course(
-                            co.optString("id", ""),
-                            co.optString("name", ""),
-                            co.optString("instructorId", ""),
-                            co.optString("description", "")
-                    );
-                    JSONArray lessonsArr = co.optJSONArray("lessons");
-                    if (lessonsArr != null) {
-                        for (int li = 0; li < lessonsArr.length(); li++) {
-                            JSONObject lo = lessonsArr.getJSONObject(li);
-                            Lesson l = new Lesson(
-                                    lo.optString("id", ""),
-                                    lo.optString("title", ""),
-                                    lo.optString("content", "")
-                            );
-                            JSONArray resArr = lo.optJSONArray("optionalResources");
-                            if (resArr != null) {
-                                String[] res = new String[resArr.length()];
-                                for (int r = 0; r < resArr.length(); r++) res[r] = resArr.getString(r);
-                                l.setOptionalResources(res);
-                            } else l.setOptionalResources(new String[0]);
-                            c.addLesson(l);
-                        }
-                    }
-                    JSONArray studs = co.optJSONArray("students");
-                    if (studs != null) {
-                        for (int si = 0; si < studs.length(); si++) {
-                            String sid = studs.getString(si);
-                            Student stub = new Student(sid, sid, "", "");
-                            c.addStudent(stub);
-                        }
-                    }
-                    courses.add(c);
-                }
-            }
+            admins.clear();
 
             JSONArray sArr = obj.optJSONArray("students");
             if (sArr != null) {
@@ -200,12 +167,15 @@ public class PeopleDB {
                             s.optString("email", ""),
                             s.optString("hashPassword", "")
                     );
+
                     JSONArray compArr = s.optJSONArray("completedLessons");
                     if (compArr != null) {
                         ArrayList<String> cl = new ArrayList<>();
-                        for (int ci = 0; ci < compArr.length(); ci++) cl.add(compArr.getString(ci));
+                        for (int ci = 0; ci < compArr.length(); ci++)
+                            cl.add(compArr.getString(ci));
                         st.setCompletedLessons(cl);
                     }
+
                     JSONArray qArr = s.optJSONArray("quizAttempts");
                     if (qArr != null) {
                         ArrayList<QuizAttempt> list = new ArrayList<>();
@@ -223,6 +193,7 @@ public class PeopleDB {
                         }
                         st.setQuizAttempts(list);
                     }
+
                     JSONArray pArr = s.optJSONArray("progresses");
                     if (pArr != null) {
                         ArrayList<Student.Progress> plist = new ArrayList<>();
@@ -230,15 +201,13 @@ public class PeopleDB {
                             JSONObject po = pArr.getJSONObject(pi);
                             String cid = po.optString("courseId", "");
                             double pct = po.optDouble("percentage", 0.0);
-                            Course pc = findCourseById(cid);
-                            if (pc == null) {
-                                pc = new Course(cid, cid);
-                                courses.add(pc);
-                            }
+
+                            Course pc = new Course(cid, cid);
                             plist.add(new Student.Progress(pc, pct));
                         }
                         st.setProgresses(plist);
                     }
+
                     students.add(st);
                 }
             }
@@ -256,6 +225,20 @@ public class PeopleDB {
                     instructors.add(instructor);
                 }
             }
+
+            JSONArray aArr = obj.optJSONArray("admins");
+            if (aArr != null) {
+                for (int i = 0; i < aArr.length(); i++) {
+                    JSONObject ad = aArr.getJSONObject(i);
+                    Admin admin = new Admin(
+                            ad.optString("id", ""),
+                            ad.optString("name", ""),
+                            ad.optString("password", "")
+                    );
+                    admins.add(admin);
+                }
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
